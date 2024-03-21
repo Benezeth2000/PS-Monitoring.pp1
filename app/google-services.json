@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "391352199866",
+    "project_id": "psmonitoring-4cb6b",
+    "storage_bucket": "psmonitoring-4cb6b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:391352199866:android:10e141999fd4c418e4b083",
+        "android_client_info": {
+          "package_name": "com.visthome.doctor"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA-SYylG69c1HVeRHiO-Eo79qO0ZoSZWKA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:391352199866:android:254e8e04e1cb373de4b083",
+        "android_client_info": {
+          "package_name": "com.visthome.psmonitoringapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA-SYylG69c1HVeRHiO-Eo79qO0ZoSZWKA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
