@@ -6,105 +6,131 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@color/light_gray"
+    android:gravity="center"
     tools:context=".MainActivity">
 
 
     <LinearLayout
+        android:id="@+id/threesteps"
+        android:gravity="center"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_centerHorizontal="true"
-        android:layout_centerInParent="true"
-        android:orientation="vertical">
+        android:layout_height="wrap_content">
 
-        <TextView
-            android:id="@+id/txtView"
-            android:layout_gravity="center"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Welcome Screen"
-            android:textColor="@color/purple_500"
-            android:textSize="20sp" />
-
-        <TextView
-            android:layout_gravity="center"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_32sdp"
-            android:text="Log In"
-            android:textColor="@color/purple_500"
-            android:textSize="20sp" />
-
-        <EditText
-            android:id="@+id/emailLogIn"
-            android:layout_width="@dimen/_250sdp"
-            android:layout_height="@dimen/_40sdp"
-            android:layout_marginTop="@dimen/_20sdp"
-            android:layout_gravity="center"
-            android:background="@drawable/edit_text_rounded_corner"
-            android:drawableLeft="@drawable/email"
-            android:drawablePadding="@dimen/_13sdp"
-            android:hint="phone number"
-            android:textColor="@color/black" />
-
-        <EditText
-            android:id="@+id/passwordLogIn"
-            android:layout_width="@dimen/_250sdp"
-            android:layout_height="@dimen/_40sdp"
-            android:layout_gravity="center"
-            android:layout_marginTop="@dimen/_20sdp"
-            android:background="@drawable/edit_text_rounded_corner"
-            android:drawableLeft="@drawable/password"
-            android:drawablePadding="@dimen/_13sdp"
-            android:hint="password"
-            android:textColor="@color/black" />
-
-        <LinearLayout
-            android:layout_width="@dimen/_250sdp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="@dimen/_5sdp"
-            android:orientation="horizontal">
-
-        <TextView
-            android:text="Forgot password?"
-            android:textColor="#322D2D"
-            android:layout_gravity="center"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_1sdp"/>
+        <RelativeLayout
+            android:background="@drawable/circular_bg"
+            android:layout_margin="@dimen/_10sdp"
+            android:layout_width="@dimen/_32sdp"
+            android:layout_height="@dimen/_32sdp">
 
             <TextView
-                android:id="@+id/forgotPass"
-                android:text="click here"
-                android:textColor="#031785"
-                android:layout_gravity="center"
-                android:layout_marginLeft="@dimen/_10sdp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_1sdp"/>
+                android:text="1"
+                android:textSize="@dimen/_18sdp"
+                android:textColor="@color/white"
+                android:layout_centerInParent="true"/>
 
-        </LinearLayout>
+        </RelativeLayout>
 
-        <TextView
-            android:id="@+id/errorLogin"
-            android:textColor="#EA1414"
-            android:layout_gravity="center"
-            android:layout_width="@dimen/_250sdp"
+        <RelativeLayout
+            android:background="@drawable/circular_bg"
+            android:layout_margin="@dimen/_10sdp"
+            android:layout_width="@dimen/_32sdp"
+            android:backgroundTint="@color/light_gray1"
+            android:layout_height="@dimen/_32sdp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="2"
+                android:textSize="@dimen/_18sdp"
+                android:textColor="@color/white"
+                android:layout_centerInParent="true"/>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:background="@drawable/circular_bg"
+            android:backgroundTint="@color/light_gray1"
+            android:layout_margin="@dimen/_10sdp"
+            android:layout_width="@dimen/_32sdp"
+            android:layout_height="@dimen/_32sdp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="3"
+                android:textSize="@dimen/_18sdp"
+                android:textColor="@color/white"
+                android:layout_centerInParent="true"/>
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/phone"
+        android:layout_below="@+id/threesteps"
+        android:layout_width="@dimen/_150sdp"
+        android:layout_height="@dimen/_150sdp"
+        android:layout_centerInParent="true"
+        android:src="@drawable/phone_icon"/>
+
+    <TextView
+        android:id="@+id/enter"
+        android:layout_below="@+id/phone"
+        android:layout_width="@dimen/_250sdp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:layout_centerInParent="true"
+        android:letterSpacing="0.08"
+        android:textSize="@dimen/_20sdp"
+        android:text="Enter phone number"/>
+
+    <LinearLayout
+        android:id="@+id/linear1"
+        android:layout_below="@+id/enter"
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:layout_height="wrap_content">
+
+        <com.hbb20.CountryCodePicker
+            app:ccp_showFlag="false"
+            app:ccp_showNameCode="false"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <EditText
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_1sdp"/>
+            android:hint="mobile"
+            android:inputType="phone"
+            android:background="@drawable/edit_text_rounded_corner"
+            android:layout_margin="@dimen/_10sdp"
+            android:elevation="@dimen/_5sdp"
+            android:padding="@dimen/_10sdp"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_100sdp"
+        android:gravity="center_vertical"
+        android:orientation="vertical"
+        android:layout_below="@+id/linear1">
 
         <Button
-            android:id="@+id/ingiaLogIn"
-            android:background="@drawable/rounded"
-            android:layout_width="@dimen/_250sdp"
+            android:layout_width="@dimen/_100sdp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_5sdp"
-            android:text="signIn"
-            android:textAllCaps="false"
             android:layout_gravity="center"
-            android:textStyle="bold" />
+            android:background="@drawable/button_rounded_corner"
+            android:text="Send Opt"/>
 
+        <ProgressBar
+            android:layout_gravity="center"
+            android:layout_width="@dimen/_32sdp"
+            android:layout_height="@dimen/_32sdp"/>
     </LinearLayout>
 
 </RelativeLayout>

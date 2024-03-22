@@ -38,6 +38,7 @@
             android:orientation="vertical">
 
             <EditText
+                android:id="@+id/firtName"
                 android:layout_width="@dimen/_250sdp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -46,6 +47,7 @@
                 android:textSize="@dimen/_14sdp" />
 
             <EditText
+                android:id="@+id/middleName"
                 android:layout_width="@dimen/_250sdp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -54,6 +56,7 @@
                 android:textSize="@dimen/_14sdp" />
 
             <EditText
+                android:id="@+id/lastName"
                 android:layout_width="@dimen/_250sdp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -62,6 +65,7 @@
                 android:textSize="@dimen/_14sdp" />
 
             <EditText
+                android:id="@+id/address"
                 android:layout_width="@dimen/_250sdp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -70,6 +74,7 @@
                 android:textSize="@dimen/_14sdp" />
 
             <EditText
+                android:id="@+id/job"
                 android:layout_width="@dimen/_250sdp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -78,6 +83,7 @@
                 android:textSize="@dimen/_14sdp" />
 
             <EditText
+                android:id="@+id/phoneNo"
                 android:layout_width="@dimen/_250sdp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -86,6 +92,7 @@
                 android:textSize="@dimen/_14sdp" />
 
             <EditText
+                android:id="@+id/diseases"
                 android:layout_width="@dimen/_250sdp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -94,6 +101,7 @@
                 android:textSize="@dimen/_14sdp" />
 
             <TextView
+                android:id="@+id/selectMedicalReport"
                 android:layout_width="@dimen/_250sdp"
                 android:layout_height="@dimen/_40sdp"
                 android:layout_gravity="center"
@@ -105,6 +113,7 @@
                 android:textSize="@dimen/_14sdp" />
 
             <Button
+                android:id="@+id/addPatient"
                 android:layout_width="@dimen/_250sdp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
