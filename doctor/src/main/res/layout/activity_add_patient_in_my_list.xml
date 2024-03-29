@@ -26,6 +26,10 @@
 
     </RelativeLayout>
 
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
     <RelativeLayout
         android:layout_below="@+id/tool_bar"
         android:layout_width="match_parent"
@@ -100,6 +104,25 @@
                 android:hint="Diseases"
                 android:textSize="@dimen/_14sdp" />
 
+            <EditText
+                android:id="@+id/patientEmail"
+                android:layout_width="@dimen/_250sdp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:hint="patient email"
+                android:textSize="@dimen/_14sdp" />
+
+            <EditText
+                android:id="@+id/passwordUser"
+                android:layout_width="@dimen/_250sdp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:inputType="number"
+                android:hint="password"
+                android:textSize="@dimen/_14sdp" />
+
             <TextView
                 android:id="@+id/selectMedicalReport"
                 android:layout_width="@dimen/_250sdp"
@@ -125,5 +148,7 @@
         </LinearLayout>
 
     </RelativeLayout>
+
+    </ScrollView>
 
 </RelativeLayout>
