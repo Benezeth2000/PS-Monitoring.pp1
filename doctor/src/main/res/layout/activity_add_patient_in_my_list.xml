@@ -124,6 +124,32 @@
                 android:hint="password"
                 android:textSize="@dimen/_14sdp" />
 
+            <LinearLayout
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_width="@dimen/_250sdp"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_weight="1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/_14ssp"
+                    android:text="Schedule Appointment"/>
+
+                <TextView
+                    android:id="@+id/selectDate"
+                    android:layout_weight="1"
+                    android:layout_marginLeft="@dimen/_10sdp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Select Date"
+                    android:textColor="#2B8C2F"
+                    android:textSize="@dimen/_14ssp"/>
+
+            </LinearLayout>
+
             <TextView
                 android:id="@+id/selectMedicalReport"
                 android:layout_width="@dimen/_250sdp"

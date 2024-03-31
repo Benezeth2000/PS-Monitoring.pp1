@@ -4,11 +4,12 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
-import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -16,7 +17,6 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.SignInMethodQueryResult;
 import com.google.firebase.database.ServerValue;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -24,10 +24,11 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.orhanobut.dialogplus.DialogPlus;
+import com.orhanobut.dialogplus.ViewHolder;
 import com.visthome.doctor.entity.Patients;
 
 import java.util.Date;
-import java.util.List;
 import java.util.Objects;
 
 public class Add_patient_in_my_list extends AppCompatActivity {
@@ -48,10 +49,24 @@ public class Add_patient_in_my_list extends AppCompatActivity {
         EditText diseases = findViewById(R.id.diseases);
         EditText patientEmail = findViewById(R.id.patientEmail);
         EditText patientPass = findViewById(R.id.passwordUser);
+        TextView selectDate = findViewById(R.id.selectDate);
         Button add = findViewById(R.id.addPatient);
 
         // Initialize Firebase Auth
         mAuth = FirebaseAuth.getInstance();
+
+        selectDate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                /*DialogPlus dialogPlus = DialogPlus.newDialog(Add_patient_in_my_list.this)
+                        .setContentHolder(new ViewHolder(R.layout.calender_cell))
+                        .setExpanded(true, 550)
+                        .create();
+                dialogPlus.show();*/
+                Intent intent = new Intent(Add_patient_in_my_list.this, Calender.class);
+                startActivity(intent);
+            }
+        });
 
         add.setOnClickListener(new View.OnClickListener() {
             @Override
