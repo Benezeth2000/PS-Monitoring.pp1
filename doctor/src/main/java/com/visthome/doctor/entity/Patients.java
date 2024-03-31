@@ -3,7 +3,10 @@ package com.visthome.doctor.entity;
 import java.util.Date;
 
 public class Patients {
-    String userUid;
+    String patientUid;
+    String doctorName;
+    String doctorUid;
+    String doctorEmail;
     String uploadId;
     String firstName;
     String middleName;
@@ -20,8 +23,11 @@ public class Patients {
     public Patients() {
     }
 
-    public Patients(String userUid, String uploadId, String firstName, String middleName, String lastName, String address, String job, String phoneNo, String diseases, String timestamp, String patientEmail, String patientPass, Date date) {
-        this.userUid = userUid;
+    public Patients(String patientUid, String doctorName, String doctorUid, String doctorEmail, String uploadId, String firstName, String middleName, String lastName, String address, String job, String phoneNo, String diseases, String timestamp, String patientEmail, String patientPass, Date date) {
+        this.patientUid = patientUid;
+        this.doctorName = doctorName;
+        this.doctorUid = doctorUid;
+        this.doctorEmail = doctorEmail;
         this.uploadId = uploadId;
         this.firstName = firstName;
         this.middleName = middleName;
@@ -36,12 +42,36 @@ public class Patients {
         this.date = date;
     }
 
-    public String getUserUid() {
-        return userUid;
+    public String getPatientUid() {
+        return patientUid;
     }
 
-    public void setUserUid(String userUid) {
-        this.userUid = userUid;
+    public void setPatientUid(String patientUid) {
+        this.patientUid = patientUid;
+    }
+
+    public String getDoctorName() {
+        return doctorName;
+    }
+
+    public void setDoctorName(String doctorName) {
+        this.doctorName = doctorName;
+    }
+
+    public String getDoctorUid() {
+        return doctorUid;
+    }
+
+    public void setDoctorUid(String doctorUid) {
+        this.doctorUid = doctorUid;
+    }
+
+    public String getDoctorEmail() {
+        return doctorEmail;
+    }
+
+    public void setDoctorEmail(String doctorEmail) {
+        this.doctorEmail = doctorEmail;
     }
 
     public String getUploadId() {

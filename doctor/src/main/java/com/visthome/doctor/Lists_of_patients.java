@@ -1,33 +1,49 @@
 package com.visthome.doctor;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.visthome.doctor.adapter.ListPatientAdapter;
+import com.visthome.doctor.entity.Doctors;
 import com.visthome.doctor.entity.Patients;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class Lists_of_patients extends AppCompatActivity {
     ListPatientAdapter listPatientAdapter;
     RecyclerView recyclerView;
     ProgressBar progressBar;
+    TextView signOut;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +53,39 @@ public class Lists_of_patients extends AppCompatActivity {
         TextInputLayout addP = findViewById(R.id.textInputLayoutDash);
         recyclerView = findViewById(R.id.recyclerView);
         progressBar = findViewById(R.id.progress_messageChats);
+        signOut = findViewById(R.id.logOut);
+        TextView username = findViewById(R.id.username);
+
+        //Code for log out
+        signOut.setOnClickListener((v) -> {
+            SignOut();
+        });
+
+        FirebaseAuth mAuth = FirebaseAuth.getInstance();
+        FirebaseFirestore db1 = FirebaseFirestore.getInstance();
+
+        String currentUserId = Objects.requireNonNull(mAuth.getCurrentUser()).getUid();
+
+        db1.collection("Doctors").document(currentUserId)
+                .addSnapshotListener(new EventListener<DocumentSnapshot>() {
+                    @Override
+                    public void onEvent(@Nullable DocumentSnapshot snapshot, @Nullable FirebaseFirestoreException e) {
+                        if (e != null) {
+                            // Handle errors
+                            return;
+                        }
+
+                        if (snapshot != null && snapshot.exists()) {
+                            // Data exists for the current user
+                            Doctors currentDoctor = snapshot.toObject(Doctors.class);
+                            if (currentDoctor != null) {
+                                username.setText(currentDoctor.getDoctorName());
+                            }
+                        } else {
+                            // Document doesn't exist
+                        }
+                    }
+                });
 
         retrieveAll();
 
@@ -50,18 +99,18 @@ public class Lists_of_patients extends AppCompatActivity {
     }
 
     private void retrieveAll() {
-            FirebaseFirestore db = FirebaseFirestore.getInstance();
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-            Query query = db.collection("Patients");
+        Query query = db.collection("Patients");
 
-            FirestoreRecyclerOptions<Patients> options = new FirestoreRecyclerOptions.Builder<Patients>()
-                    .setQuery(query, Patients.class).build();
+        FirestoreRecyclerOptions<Patients> options = new FirestoreRecyclerOptions.Builder<Patients>()
+                .setQuery(query, Patients.class).build();
 
-            listPatientAdapter = new ListPatientAdapter(options, Lists_of_patients.this);
-            LinearLayoutManager manager = new LinearLayoutManager(Lists_of_patients.this);
-            manager.setReverseLayout(false);
-            recyclerView.setLayoutManager(manager);
-            recyclerView.setAdapter(listPatientAdapter);
+        listPatientAdapter = new ListPatientAdapter(options, Lists_of_patients.this);
+        LinearLayoutManager manager = new LinearLayoutManager(Lists_of_patients.this);
+        manager.setReverseLayout(false);
+        recyclerView.setLayoutManager(manager);
+        recyclerView.setAdapter(listPatientAdapter);
 
         progressBar.setVisibility(View.VISIBLE);
         int progressBarDuration = 10000; // Set the duration in milliseconds (e.g., 10 seconds)
@@ -71,26 +120,64 @@ public class Lists_of_patients extends AppCompatActivity {
 
     }
 
-    @Override
-    public  void onStart() {
-        super.onStart();
-        if (listPatientAdapter!=null){
-            listPatientAdapter.startListening();
-        }
+    private void SignOut() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Are you sure?");
+        builder.setMessage("You want to Log out.?");
+
+        builder.setPositiveButton("Log out", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                ProgressDialog progressBar = new ProgressDialog(Lists_of_patients.this);
+                progressBar.setMessage("Please wait, while sign out...");
+                progressBar.show();
+
+                FirebaseMessaging.getInstance().deleteToken().addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful()) {
+                            FirebaseAuth.getInstance().signOut();
+                            Intent intent = new Intent(Lists_of_patients.this, Login.class);
+                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                            startActivity(intent);
+                        }
+                    }
+                });
+            }
+        });
+
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                Toast.makeText(Lists_of_patients.this, "Cancelled.", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(Lists_of_patients.this, Lists_of_patients.class);
+                startActivity(intent);
+            }
+        });
+        builder.show();
     }
 
-    @Override
-    public void onStop() {
-        super.onStop();
-        if (listPatientAdapter!=null){
-            listPatientAdapter.stopListening();
+
+        @Override
+        public  void onStart() {
+            super.onStart();
+            if (listPatientAdapter!=null){
+                listPatientAdapter.startListening();
+            }
         }
-    }
+
+        @Override
+        public void onStop() {
+            super.onStop();
+            if (listPatientAdapter!=null){
+                listPatientAdapter.stopListening();
+            }
+        }
 
     @Override
     public void onResume() {
         super.onResume();
-        if (listPatientAdapter!=null){
+        if (listPatientAdapter != null) {
             listPatientAdapter.notifyDataSetChanged();
         }
     }

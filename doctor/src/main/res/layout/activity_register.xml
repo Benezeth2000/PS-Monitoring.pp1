@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/light_gray"
-    tools:context=".Login">
+    tools:context=".Register">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -34,7 +34,19 @@
             android:textSize="20sp" />
 
         <EditText
-            android:id="@+id/emailLogIn"
+            android:id="@+id/username"
+            android:layout_width="@dimen/_250sdp"
+            android:layout_height="@dimen/_40sdp"
+            android:layout_marginTop="@dimen/_20sdp"
+            android:layout_gravity="center"
+            android:background="@drawable/edit_text_rounded_corner"
+            android:drawableLeft="@drawable/person"
+            android:drawablePadding="@dimen/_13sdp"
+            android:hint="username"
+            android:textColor="@color/black" />
+
+        <EditText
+            android:id="@+id/phoneNumber"
             android:layout_width="@dimen/_250sdp"
             android:layout_height="@dimen/_40sdp"
             android:layout_marginTop="@dimen/_20sdp"
@@ -43,6 +55,18 @@
             android:drawableLeft="@drawable/email"
             android:drawablePadding="@dimen/_13sdp"
             android:hint="phone number"
+            android:textColor="@color/black" />
+
+        <EditText
+            android:id="@+id/emailLogIn"
+            android:layout_width="@dimen/_250sdp"
+            android:layout_height="@dimen/_40sdp"
+            android:layout_marginTop="@dimen/_20sdp"
+            android:layout_gravity="center"
+            android:background="@drawable/edit_text_rounded_corner"
+            android:drawableLeft="@drawable/email"
+            android:drawablePadding="@dimen/_13sdp"
+            android:hint="email"
             android:textColor="@color/black" />
 
         <EditText
@@ -56,33 +80,6 @@
             android:drawablePadding="@dimen/_13sdp"
             android:hint="password"
             android:textColor="@color/black" />
-
-        <LinearLayout
-            android:layout_width="@dimen/_250sdp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="@dimen/_5sdp"
-            android:orientation="horizontal">
-
-            <TextView
-                android:text="Forgot password?"
-                android:textColor="#322D2D"
-                android:layout_gravity="center"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_1sdp"/>
-
-            <TextView
-                android:id="@+id/forgotPass"
-                android:text="click here"
-                android:textColor="#031785"
-                android:layout_gravity="center"
-                android:layout_marginLeft="@dimen/_10sdp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_1sdp"/>
-
-        </LinearLayout>
 
         <TextView
             android:id="@+id/errorLogin"
@@ -98,7 +95,7 @@
             android:layout_width="@dimen/_250sdp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_5sdp"
-            android:text="signIn"
+            android:text="Sign Up"
             android:textAllCaps="false"
             android:layout_gravity="center"
             android:textStyle="bold" />
@@ -111,7 +108,7 @@
             android:orientation="horizontal">
 
             <TextView
-                android:text="I don't have account"
+                android:text="I have account"
                 android:textColor="#322D2D"
                 android:layout_gravity="center"
                 android:layout_width="wrap_content"
@@ -119,7 +116,7 @@
                 android:layout_marginTop="@dimen/_1sdp"/>
 
             <TextView
-                android:id="@+id/noAccount"
+                android:id="@+id/Account"
                 android:text="click here"
                 android:textColor="#031785"
                 android:layout_gravity="center"

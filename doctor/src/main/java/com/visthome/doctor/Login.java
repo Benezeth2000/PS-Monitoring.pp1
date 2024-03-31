@@ -36,7 +36,16 @@ public class Login extends AppCompatActivity {
         EditText password = findViewById(R.id.passwordLogIn);
         TextView errorLogIn = findViewById(R.id.errorLogin);
         TextView forgotPass = findViewById(R.id.forgotPass);
+        TextView noAccount = findViewById(R.id.noAccount);
         Button logIn = findViewById(R.id.ingiaLogIn);
+
+        noAccount.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Login.this, Register.class);
+                startActivity(intent);
+            }
+        });
 
         logIn.setOnClickListener(new View.OnClickListener() {
             @Override

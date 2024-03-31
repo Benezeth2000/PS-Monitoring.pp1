@@ -22,6 +22,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.visthome.doctor.entity.Patients;
 
@@ -136,86 +137,82 @@ public class Add_patient_in_my_list extends AppCompatActivity {
 
                 FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
 
-                mAuth.fetchSignInMethodsForEmail(email)
-                        .addOnCompleteListener(new OnCompleteListener<SignInMethodQueryResult>() {
+
+                FirebaseAuth.getInstance().createUserWithEmailAndPassword(email, pass)
+                        .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                             @Override
-                            public void onComplete(@NonNull Task<SignInMethodQueryResult> task) {
+                            public void onComplete(@NonNull Task<AuthResult> task) {
                                 if (task.isSuccessful()) {
-                                    List<String> signInMethods = task.getResult().getSignInMethods();
-                                    if (signInMethods != null && !signInMethods.isEmpty()) {
-                                        // Email is already registered
-                                        // signInMethods list will contain the sign-in methods associated with this email
-                                        // For example, if the email is registered with password authentication,
-                                        // signInMethods will contain "password"
-                                        // You can handle this case here
-                                        //error.setText("email is already taken, try another email");
-                                        Toast.makeText(Add_patient_in_my_list.this, "email is already taken, try another email", Toast.LENGTH_SHORT).show();
-                                        dialog.dismiss();
-                                    } else {
-                                        // Email is not registered
-                                        // You can handle this case here
-                                        FirebaseAuth.getInstance().createUserWithEmailAndPassword(email, pass)
-                                                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                                                    @Override
-                                                    public void onComplete(@NonNull Task<AuthResult> task) {
-                                                        if (task.isSuccessful()) {
-                                                            // User registered successfully
-                                                            FirebaseUser currentUser1 = FirebaseAuth.getInstance().getCurrentUser();
+                                    // User registered successfully
+                                    FirebaseUser currentUser1 = FirebaseAuth.getInstance().getCurrentUser();
 
-                                                            if (currentUser1 != null) {
-                                                                FirebaseFirestore dbUser = FirebaseFirestore.getInstance();
+                                    if (currentUser1 != null) {
+                                        FirebaseFirestore dbUser = FirebaseFirestore.getInstance();
 
-                                                                String userId = Objects.requireNonNull(currentUser1).getUid();
+                                        DocumentReference doctorRef = dbUser.collection("Doctors").document(currentUser.getUid());
 
-                                                                Patients createPatient = new Patients(
-                                                                        userId,
-                                                                        uploadId,
-                                                                        Fname,
-                                                                        Mname,
-                                                                        Lname,
-                                                                        addr,
-                                                                        work,
-                                                                        phoneNo,
-                                                                        dises,
-                                                                        currentTime,
-                                                                        email,
-                                                                        pass,
-                                                                        currentDate
-                                                                );
+                                        doctorRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                                            @Override
+                                            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                                                if (documentSnapshot.exists()) {
+                                                    String doctorName = documentSnapshot.getString("doctorName");
+                                                    String doctorUid = documentSnapshot.getString("doctorUid");
+                                                    String doctorEmail = documentSnapshot.getString("email");
 
-                                                                patientCollection.document(uploadId).
+                                                    String userId = Objects.requireNonNull(currentUser1).getUid();
 
-                                                                        set(createPatient)
-                                                                                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                                                            @Override
-                                                                            public void onSuccess(Void unused) {
-                                                                                firtName.setText("");
-                                                                                middleName.setText("");
-                                                                                lastName.setText("");
-                                                                                job.setText("");
-                                                                                phoNo.setText("");
-                                                                                address.setText("");
-                                                                                diseases.setText("");
-                                                                                patientPass.setText("");
-                                                                                patientEmail.setText("");
+                                                    Patients createPatient = new Patients(
+                                                            userId,
+                                                            doctorName,
+                                                            doctorUid,
+                                                            doctorEmail,
+                                                            uploadId,
+                                                            Fname,
+                                                            Mname,
+                                                            Lname,
+                                                            addr,
+                                                            work,
+                                                            phoneNo,
+                                                            dises,
+                                                            currentTime,
+                                                            email,
+                                                            pass,
+                                                            currentDate
+                                                    );
 
-                                                                                dialog.dismiss();
-                                                                                Toast.makeText(Add_patient_in_my_list.this, "Patient added successful", Toast.LENGTH_LONG).show();
-                                                                            }
-                                                                        }).
+                                                    patientCollection.document(uploadId).
 
-                                                                        addOnFailureListener(new OnFailureListener() {
-                                                                            @Override
-                                                                            public void onFailure(@NonNull Exception e) {
-                                                                                dialog.dismiss();
-                                                                                Toast.makeText(Add_patient_in_my_list.this, "Failed to add patient, try again ", Toast.LENGTH_SHORT).show();
-                                                                            }
-                                                                        });
+                                                            set(createPatient)
+                                                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                                @Override
+                                                                public void onSuccess(Void unused) {
+                                                                    firtName.setText("");
+                                                                    middleName.setText("");
+                                                                    lastName.setText("");
+                                                                    job.setText("");
+                                                                    phoNo.setText("");
+                                                                    address.setText("");
+                                                                    diseases.setText("");
+                                                                    patientPass.setText("");
+                                                                    patientEmail.setText("");
 
-                                                            }
-                                                        }
-                                                    }
-                                                });
+                                                                    dialog.dismiss();
+                                                                    Toast.makeText(Add_patient_in_my_list.this, "Patient added successful", Toast.LENGTH_LONG).show();
+                                                                }
+                                                            }).
+
+                                                            addOnFailureListener(new OnFailureListener() {
+                                                                @Override
+                                                                public void onFailure(@NonNull Exception e) {
+                                                                    dialog.dismiss();
+                                                                    Toast.makeText(Add_patient_in_my_list.this, "Failed to add patient, try again ", Toast.LENGTH_SHORT).show();
+                                                                }
+                                                            });
+                                                }
+                                            }
+                                        });
+
+
                                     }
                                 }
                             }
