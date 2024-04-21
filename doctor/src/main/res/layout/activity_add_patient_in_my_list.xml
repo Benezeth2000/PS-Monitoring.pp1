@@ -124,9 +124,16 @@
                 android:hint="password"
                 android:textSize="@dimen/_14sdp" />
 
+            <TextView
+                android:id="@+id/scheduled"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_width="@dimen/_250sdp"
+                android:layout_gravity="center"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/_15ssp"/>
+
             <LinearLayout
                 android:layout_gravity="center"
-                android:layout_marginTop="@dimen/_10sdp"
                 android:layout_width="@dimen/_250sdp"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">

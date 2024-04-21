@@ -24,8 +24,6 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.orhanobut.dialogplus.DialogPlus;
-import com.orhanobut.dialogplus.ViewHolder;
 import com.visthome.doctor.entity.Patients;
 
 import java.util.Date;
@@ -50,7 +48,13 @@ public class Add_patient_in_my_list extends AppCompatActivity {
         EditText patientEmail = findViewById(R.id.patientEmail);
         EditText patientPass = findViewById(R.id.passwordUser);
         TextView selectDate = findViewById(R.id.selectDate);
+        TextView scheduled = findViewById(R.id.scheduled);
         Button add = findViewById(R.id.addPatient);
+
+        Intent intent = getIntent();
+        String getCustomDate = intent.getStringExtra("customDate");
+
+        scheduled.setText(getCustomDate);
 
         // Initialize Firebase Auth
         mAuth = FirebaseAuth.getInstance();
@@ -88,6 +92,7 @@ public class Add_patient_in_my_list extends AppCompatActivity {
                 String dises = diseases.getText().toString();
                 String email = patientEmail.getText().toString();
                 String pass = patientPass.getText().toString();
+                String timeTomeet = scheduled.getText().toString();
 
                 String uploadId = db.collection("Patients").document().getId();
                 Date currentDate = new Date(); // Get the current date and time
@@ -146,6 +151,12 @@ public class Add_patient_in_my_list extends AppCompatActivity {
                     patientPass.requestFocus();
                     return;
                 }
+
+                if (timeTomeet.isEmpty()) {
+                    scheduled.setError("select date");
+                    scheduled.requestFocus();
+                    return;
+                }
                 ProgressDialog dialog = new ProgressDialog(Add_patient_in_my_list.this);
                 dialog.setMessage("Please wait...");
                 dialog.show();
@@ -192,7 +203,8 @@ public class Add_patient_in_my_list extends AppCompatActivity {
                                                             currentTime,
                                                             email,
                                                             pass,
-                                                            currentDate
+                                                            currentDate,
+                                                            timeTomeet
                                                     );
 
                                                     patientCollection.document(uploadId).

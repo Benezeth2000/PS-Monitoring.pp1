@@ -1,26 +1,34 @@
 package com.visthome.doctor;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CalendarView;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.visthome.doctor.adapter.CalenderAdapter;
+import com.visthome.doctor.viewholder.CalenderViewHolder;
+
+import org.w3c.dom.Text;
 
 import java.time.LocalDate;
 import java.time.YearMonth;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 
-public class Calender extends AppCompatActivity implements CalenderAdapter.OnItemListener {
+public class Calender extends AppCompatActivity {
 
     private Button next, previous;
     private TextView monthYearText;
@@ -29,108 +37,64 @@ public class Calender extends AppCompatActivity implements CalenderAdapter.OnIte
 
     CalenderAdapter calenderAdapter;
 
+    private int currentYear = 0;
+    private int currentMonth = 0;
+    private int currentDay = 0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_calender);
 
-        next = findViewById(R.id.next);
-        previous = findViewById(R.id.previous);
-        calenderRecyclerView = findViewById(R.id.calenderRecyclerView);
-        monthYearText = findViewById(R.id.monthYearView);
+        CalendarView calendarView = findViewById(R.id.calendarView);
+        /*final TextView selectedDay = findViewById(R.id.selectedDay);
+        final TextView selectedMonth = findViewById(R.id.selectedMonth);
+        final TextView selectedYear = findViewById(R.id.selectedYear);*/
+        final TextView textInput = findViewById(R.id.textInput);
+        final Button save = findViewById(R.id.save);
+        final View dayContent = findViewById(R.id.dayContent);
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            selectedDate = LocalDate.now();
-        }
 
-        setMonthView();
+        List<String> calendarStrings = new ArrayList<>();
 
-        initWidgets();
-
-        next.setOnClickListener(new View.OnClickListener() {
+        calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
             @Override
-            public void onClick(View v) {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                    selectedDate = selectedDate.plusMonths(1);
-                }
-                setMonthView();
+            public void onSelectedDayChange(@NonNull CalendarView view, int year, int month, int dayOfMonth) {
+               /* selectedDay.setText("Selected Day: " + dayOfMonth);
+                selectedMonth.setText("Selected Month: " + month);
+                selectedYear.setText("Selected Year: " + year);*/
 
+                textInput.setText(year + "/" + month + "/" + dayOfMonth);
+
+                if (dayContent.getVisibility()==view.GONE){
+                    dayContent.setVisibility(View.VISIBLE);
+                }
+
+               /* long savedDate = Long.parseLong(calendarStrings.get(0));
+
+                if (view.getDate()==savedDate){
+                    textInput.setText(calendarStrings.get(1));
+                }*/
+                //view.getDate();
             }
         });
 
-        previous.setOnClickListener(new View.OnClickListener() {
+        save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //
+                // calendarStrings.add(String.valueOf(calendarView.getDate()));
+               // calendarStrings.add(textInput.getText().toString());
+                //textInput.setText("");
 
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                    selectedDate = selectedDate.minusMonths(1);
-                }
-                setMonthView();
+                String gotDate = textInput.getText().toString();
 
+                Intent intent = new Intent(Calender.this, Add_patient_in_my_list.class);
+                intent.putExtra("customDate", gotDate);
+                startActivity(intent);
             }
         });
 
     }
 
-    private void initWidgets() {
-        //calenderRecyclerView = findViewById(R.id.calenderRecyclerView);
-        monthYearText = findViewById(R.id.monthYearView);
-    }
-
-    private void setMonthView() {
-        //monthYearText = findViewById(R.id.monthYearView);
-
-        monthYearText.setText(monthYearFromDate(selectedDate));
-        ArrayList<String> daysInMonth = daysInMonthArray(selectedDate);
-
-        calenderAdapter = new CalenderAdapter(daysInMonth, Calender.this);
-        RecyclerView.LayoutManager layoutManager = new GridLayoutManager(getApplicationContext(), 7);
-        calenderRecyclerView.setLayoutManager(layoutManager);
-        calenderRecyclerView.setAdapter(calenderAdapter);
-
-    }
-
-    private ArrayList<String> daysInMonthArray(LocalDate date) {
-        ArrayList<String> daysInMonthArray = new ArrayList<>();
-        YearMonth yearMonth;
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-            yearMonth = YearMonth.from(date);
-
-            int daysInMonth = yearMonth.lengthOfMonth();
-            LocalDate firstOfMonth = selectedDate.withDayOfMonth(1);
-
-            int dayOfWeek = firstOfMonth.getDayOfWeek().getValue();
-
-            for (int i = 1; i <= 42; i++) {
-                if (i <= dayOfWeek || i > daysInMonth + dayOfWeek) {
-                    daysInMonthArray.add("");
-
-                } else {
-                    daysInMonthArray.add(String.valueOf(i - dayOfWeek));
-                }
-            }
-            return daysInMonthArray;
-        }
-
-        return null;
-    }
-
-    private String monthYearFromDate(LocalDate date) {
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMMM yyyy");
-            return date.format(formatter);
-        }
-        return null;
-    }
-
-    @Override
-    public void onItemClick(int position, String dayText) {
-
-        if (dayText.equals("")) {
-            String message = "Selected Date " + dayText + " " + monthYearFromDate(selectedDate);
-            Toast.makeText(this, message, Toast.LENGTH_LONG).show();
-            Log.d("Calender", message);
-        }
-
-    }
 }

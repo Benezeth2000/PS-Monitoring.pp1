@@ -19,11 +19,12 @@ public class Patients {
     String patientEmail;
     String patientPass;
     Date date;
+    String customDate;
 
     public Patients() {
     }
 
-    public Patients(String patientUid, String doctorName, String doctorUid, String doctorEmail, String uploadId, String firstName, String middleName, String lastName, String address, String job, String phoneNo, String diseases, String timestamp, String patientEmail, String patientPass, Date date) {
+    public Patients(String patientUid, String doctorName, String doctorUid, String doctorEmail, String uploadId, String firstName, String middleName, String lastName, String address, String job, String phoneNo, String diseases, String timestamp, String patientEmail, String patientPass, Date date, String customDate) {
         this.patientUid = patientUid;
         this.doctorName = doctorName;
         this.doctorUid = doctorUid;
@@ -40,6 +41,7 @@ public class Patients {
         this.patientEmail = patientEmail;
         this.patientPass = patientPass;
         this.date = date;
+        this.customDate = customDate;
     }
 
     public String getPatientUid() {
@@ -168,5 +170,13 @@ public class Patients {
 
     public void setPatientPass(String patientPass) {
         this.patientPass = patientPass;
+    }
+
+    public String getCustomDate() {
+        return customDate;
+    }
+
+    public void setCustomDate(String customDate) {
+        this.customDate = customDate;
     }
 }
