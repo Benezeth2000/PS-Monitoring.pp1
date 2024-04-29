@@ -32,6 +32,7 @@ public class ListPatientAdapter extends FirestoreRecyclerAdapter<Patients, ListP
         holder.patientName.setText(model.getLastName());
         holder.address.setText(model.getAddress());
         holder.time.setText(getElapsedTime(model.getDate()));
+        holder.status.setText(model.getCustomDate());
     }
 
     @NonNull

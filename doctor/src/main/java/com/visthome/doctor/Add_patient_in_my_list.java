@@ -207,7 +207,7 @@ public class Add_patient_in_my_list extends AppCompatActivity {
                                                             timeTomeet
                                                     );
 
-                                                    patientCollection.document(uploadId).
+                                                    patientCollection.document(userId).
 
                                                             set(createPatient)
                                                             .addOnSuccessListener(new OnSuccessListener<Void>() {

@@ -3,6 +3,10 @@ package com.visthome.psmonitoringapp.entity;
 import java.util.Date;
 
 public class Patients {
+    String patientUid;
+    String doctorName;
+    String doctorUid;
+    String doctorEmail;
     String uploadId;
     String firstName;
     String middleName;
@@ -12,12 +16,19 @@ public class Patients {
     String phoneNo;
     String diseases;
     String timestamp;
+    String patientEmail;
+    String patientPass;
     Date date;
+    String customDate;
 
     public Patients() {
     }
 
-    public Patients(String uploadId, String firstName, String middleName, String lastName, String address, String job, String phoneNo, String diseases, String timestamp, Date date) {
+    public Patients(String patientUid, String doctorName, String doctorUid, String doctorEmail, String uploadId, String firstName, String middleName, String lastName, String address, String job, String phoneNo, String diseases, String timestamp, String patientEmail, String patientPass, Date date, String customDate) {
+        this.patientUid = patientUid;
+        this.doctorName = doctorName;
+        this.doctorUid = doctorUid;
+        this.doctorEmail = doctorEmail;
         this.uploadId = uploadId;
         this.firstName = firstName;
         this.middleName = middleName;
@@ -27,7 +38,42 @@ public class Patients {
         this.phoneNo = phoneNo;
         this.diseases = diseases;
         this.timestamp = timestamp;
+        this.patientEmail = patientEmail;
+        this.patientPass = patientPass;
         this.date = date;
+        this.customDate = customDate;
+    }
+
+    public String getPatientUid() {
+        return patientUid;
+    }
+
+    public void setPatientUid(String patientUid) {
+        this.patientUid = patientUid;
+    }
+
+    public String getDoctorName() {
+        return doctorName;
+    }
+
+    public void setDoctorName(String doctorName) {
+        this.doctorName = doctorName;
+    }
+
+    public String getDoctorUid() {
+        return doctorUid;
+    }
+
+    public void setDoctorUid(String doctorUid) {
+        this.doctorUid = doctorUid;
+    }
+
+    public String getDoctorEmail() {
+        return doctorEmail;
+    }
+
+    public void setDoctorEmail(String doctorEmail) {
+        this.doctorEmail = doctorEmail;
     }
 
     public String getUploadId() {
@@ -108,5 +154,29 @@ public class Patients {
 
     public void setDate(Date date) {
         this.date = date;
+    }
+
+    public String getPatientEmail() {
+        return patientEmail;
+    }
+
+    public void setPatientEmail(String patientEmail) {
+        this.patientEmail = patientEmail;
+    }
+
+    public String getPatientPass() {
+        return patientPass;
+    }
+
+    public void setPatientPass(String patientPass) {
+        this.patientPass = patientPass;
+    }
+
+    public String getCustomDate() {
+        return customDate;
+    }
+
+    public void setCustomDate(String customDate) {
+        this.customDate = customDate;
     }
 }

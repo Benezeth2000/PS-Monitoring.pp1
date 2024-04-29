@@ -11,18 +11,50 @@
         android:id="@+id/tool_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/teal_700"
+        android:background="#45706F"
         android:padding="@dimen/_10sdp">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginStart="@dimen/_5sdp"
-            android:text="User Dashbord"
-            android:textColor="@color/white"
-            android:textSize="@dimen/_20sdp"
-            android:textStyle="bold" />
+        <FrameLayout
+            android:id="@+id/frame"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_55sdp">
+
+            <ImageView
+                android:id="@+id/image"
+                android:layout_width="@dimen/_50sdp"
+                android:layout_height="@dimen/_50sdp"
+                android:layout_margin="@dimen/_2sdp"
+                android:background="@drawable/circular_bg" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/username"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_65sdp"
+                    android:layout_marginTop="@dimen/_10ssp"
+                    android:hint="Username"
+                    android:textColor="@color/black"
+                    android:textColorHint="#A39E9E"
+                    android:textSize="@dimen/_14sdp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/logOut"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Log Out"
+                    android:layout_gravity="end"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/_16ssp" />
+
+            </LinearLayout>
+
+        </FrameLayout>
 
     </RelativeLayout>
 
@@ -56,6 +88,7 @@
                     android:textSize="@dimen/_18sdp" />
 
                 <TextView
+                    android:id="@+id/appointment"
                     android:layout_width="@dimen/_300sdp"
                     android:layout_gravity="center"
                     android:layout_height="@dimen/_80sdp"
