@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CalendarView;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -24,6 +25,8 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.orhanobut.dialogplus.DialogPlus;
+import com.orhanobut.dialogplus.ViewHolder;
 import com.visthome.doctor.entity.Patients;
 
 import java.util.Date;
@@ -67,6 +70,7 @@ public class Add_patient_in_my_list extends AppCompatActivity {
                         .setExpanded(true, 550)
                         .create();
                 dialogPlus.show();*/
+
                 Intent intent = new Intent(Add_patient_in_my_list.this, Calender.class);
                 startActivity(intent);
             }

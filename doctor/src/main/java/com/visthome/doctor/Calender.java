@@ -16,15 +16,18 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.visthome.doctor.adapter.CalenderAdapter;
-import com.visthome.doctor.viewholder.CalenderViewHolder;
+//import com.visthome.doctor.adapter.CalenderAdapter;
+//import com.visthome.doctor.viewholder.CalenderViewHolder;
 
 import org.w3c.dom.Text;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.YearMonth;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -35,7 +38,7 @@ public class Calender extends AppCompatActivity {
     private RecyclerView calenderRecyclerView;
     private LocalDate selectedDate;
 
-    CalenderAdapter calenderAdapter;
+    //CalenderAdapter calenderAdapter;
 
     private int currentYear = 0;
     private int currentMonth = 0;
@@ -60,22 +63,26 @@ public class Calender extends AppCompatActivity {
         calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
             @Override
             public void onSelectedDayChange(@NonNull CalendarView view, int year, int month, int dayOfMonth) {
-               /* selectedDay.setText("Selected Day: " + dayOfMonth);
-                selectedMonth.setText("Selected Month: " + month);
-                selectedYear.setText("Selected Year: " + year);*/
+                int currentMonth = month + 1;
 
-                textInput.setText(year + "/" + month + "/" + dayOfMonth);
+                String dayOfToday = year + "/" + currentMonth + "/" + dayOfMonth;
+
+                SimpleDateFormat inputFormat = new SimpleDateFormat("yyyy/MM/dd", Locale.getDefault());
+                Date date = null;
+                try {
+                    date = inputFormat.parse(dayOfToday);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+
+                SimpleDateFormat dateFormat = new SimpleDateFormat("MMM dd, yyyy", Locale.getDefault());
+                String formattedDate = dateFormat.format(date);
+                textInput.setText(formattedDate);
 
                 if (dayContent.getVisibility()==view.GONE){
                     dayContent.setVisibility(View.VISIBLE);
                 }
 
-               /* long savedDate = Long.parseLong(calendarStrings.get(0));
-
-                if (view.getDate()==savedDate){
-                    textInput.setText(calendarStrings.get(1));
-                }*/
-                //view.getDate();
             }
         });
 
