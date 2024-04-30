@@ -50,6 +50,14 @@
                 android:layout_height="wrap_content"
                 android:textSize="@dimen/_15ssp"/>
 
+            <TextView
+                android:id="@+id/time"
+                android:layout_marginTop="@dimen/_2sdp"
+                android:layout_width="@dimen/_250sdp"
+                android:layout_gravity="center"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/_15ssp"/>
+
             <LinearLayout
                 android:layout_gravity="center"
                 android:layout_width="@dimen/_250sdp"

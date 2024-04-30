@@ -52,12 +52,15 @@ public class Add_patient_in_my_list extends AppCompatActivity {
         EditText patientPass = findViewById(R.id.passwordUser);
         TextView selectDate = findViewById(R.id.selectDate);
         TextView scheduled = findViewById(R.id.scheduled);
+        TextView time = findViewById(R.id.time);
         Button add = findViewById(R.id.addPatient);
 
         Intent intent = getIntent();
         String getCustomDate = intent.getStringExtra("customDate");
+        String gotTime = intent.getStringExtra("gotTime");
 
         scheduled.setText(getCustomDate);
+        time.setText(gotTime);
 
         // Initialize Firebase Auth
         mAuth = FirebaseAuth.getInstance();
@@ -97,6 +100,7 @@ public class Add_patient_in_my_list extends AppCompatActivity {
                 String email = patientEmail.getText().toString();
                 String pass = patientPass.getText().toString();
                 String timeTomeet = scheduled.getText().toString();
+                String Time = time.getText().toString();
 
                 String uploadId = db.collection("Patients").document().getId();
                 Date currentDate = new Date(); // Get the current date and time
@@ -208,7 +212,8 @@ public class Add_patient_in_my_list extends AppCompatActivity {
                                                             email,
                                                             pass,
                                                             currentDate,
-                                                            timeTomeet
+                                                            timeTomeet,
+                                                            Time
                                                     );
 
                                                     patientCollection.document(userId).

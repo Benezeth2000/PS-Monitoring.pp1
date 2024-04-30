@@ -10,9 +10,12 @@ import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CalendarView;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -54,9 +57,31 @@ public class Calender extends AppCompatActivity {
         final TextView selectedMonth = findViewById(R.id.selectedMonth);
         final TextView selectedYear = findViewById(R.id.selectedYear);*/
         final TextView textInput = findViewById(R.id.textInput);
+        //final TextView selectedTime = findViewById(R.id.selectedTime);
         final Button save = findViewById(R.id.save);
         final View dayContent = findViewById(R.id.dayContent);
 
+        Spinner timeSpinner = findViewById(R.id.selectedTime);
+
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
+                this,
+                R.array.times,
+                android.R.layout.simple_spinner_item
+        );
+
+        timeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, android.view.View view, int position, long id) {
+                String selectedTime = (String) parent.getItemAtPosition(position);
+                // Here you can handle the selected time
+                Toast.makeText(Calender.this, "Selected time: " + selectedTime, Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                // Do nothing
+            }
+        });
 
         List<String> calendarStrings = new ArrayList<>();
 
@@ -95,9 +120,11 @@ public class Calender extends AppCompatActivity {
                 //textInput.setText("");
 
                 String gotDate = textInput.getText().toString();
+                String gotTime = timeSpinner.getSelectedItem().toString();
 
                 Intent intent = new Intent(Calender.this, Add_patient_in_my_list.class);
                 intent.putExtra("customDate", gotDate);
+                intent.putExtra("gotTime", gotTime);
                 startActivity(intent);
             }
         });
