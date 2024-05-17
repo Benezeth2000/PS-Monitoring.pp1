@@ -11,4 +11,10 @@
     <color name="off_white">#FDFDFD</color>
     <color name="light_gray">#C3C3C3</color>
     <color name="light_gray1">#E68686</color>
+
+    //* App *//
+    <color name="blue">#3282F6</color>
+    <color name="dark_blue">#0F3564</color>
+    <color name="red">#e63946</color>
+    <color name="green_500">#3F51B5</color>
 </resources>

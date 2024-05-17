@@ -99,18 +99,6 @@
                     android:text="Medical Report"
                     android:textSize="@dimen/_18sdp" />
 
-                <TextView
-                    android:layout_width="@dimen/_300sdp"
-                    android:layout_gravity="center"
-                    android:layout_height="@dimen/_80sdp"
-                    android:layout_marginTop="@dimen/_10sdp"
-                    android:background="@drawable/edit_text_rounded_corner"
-                    android:paddingLeft="@dimen/_5sdp"
-                    android:paddingTop="@dimen/_30sdp"
-                    android:text="Notification"
-                    android:textSize="@dimen/_18sdp" />
-
-
             </LinearLayout>
 
         </ScrollView>

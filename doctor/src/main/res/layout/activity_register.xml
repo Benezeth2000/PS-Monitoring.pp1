@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/light_gray"
+    android:background="@drawable/app_back"
     tools:context=".Register">
 
     <LinearLayout
@@ -16,20 +16,11 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/txtView"
-            android:layout_gravity="center"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Welcome Screen"
-            android:textColor="@color/purple_500"
-            android:textSize="20sp" />
-
-        <TextView
             android:layout_gravity="center"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_32sdp"
-            android:text="Log In"
+            android:text="Create an Account"
             android:textColor="@color/purple_500"
             android:textSize="20sp" />
 
