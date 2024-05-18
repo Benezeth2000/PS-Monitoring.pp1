@@ -231,7 +231,6 @@ public class Add_patient_in_my_list extends AppCompatActivity {
                                                                     diseases.setText("");
                                                                     patientPass.setText("");
                                                                     patientEmail.setText("");
-
                                                                     dialog.dismiss();
                                                                     Toast.makeText(Add_patient_in_my_list.this, "Patient added successful", Toast.LENGTH_LONG).show();
                                                                 }

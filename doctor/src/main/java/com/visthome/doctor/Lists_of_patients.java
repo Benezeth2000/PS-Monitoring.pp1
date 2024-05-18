@@ -34,6 +34,7 @@ import com.google.firebase.messaging.FirebaseMessaging;
 import com.visthome.doctor.adapter.ListPatientAdapter;
 import com.visthome.doctor.entity.Doctors;
 import com.visthome.doctor.entity.Patients;
+import com.visthome.doctor.service.NotificationService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -55,6 +56,11 @@ public class Lists_of_patients extends AppCompatActivity {
         progressBar = findViewById(R.id.progress_messageChats);
         signOut = findViewById(R.id.logOut);
         TextView username = findViewById(R.id.username);
+
+        // Start the Notification Service
+        //Ensure the Service starts when your app launches.
+        Intent serviceIntent = new Intent(this, NotificationService.class);
+        startService(serviceIntent);
 
         //Code for log out
         signOut.setOnClickListener((v) -> {
