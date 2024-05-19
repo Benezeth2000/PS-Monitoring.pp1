@@ -3,7 +3,12 @@ package com.visthome.doctor.service;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Build;
+import android.os.Handler;
+import android.os.Looper;
+import android.util.Log;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.core.app.NotificationCompat;
@@ -21,6 +26,7 @@ import java.util.Locale;
 
 //Worker class that will be responsible for the periodic checks.
 public class NotificationWorker extends Worker {
+    private static final String TAG = "NotificationWorker";
     public NotificationWorker(@NonNull Context context, @NonNull WorkerParameters workerParams) {
         super(context, workerParams);
     }
@@ -42,11 +48,12 @@ public class NotificationWorker extends Worker {
                     String customDate = patient.getCustomDate();
                     String customTime = patient.getCustomTime();
 
-                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault());
+                    SimpleDateFormat sdf = new SimpleDateFormat("MMM dd, yyyy hh:mm a", Locale.getDefault());
                     String currentDateTime = sdf.format(new Date());
 
                     if (currentDateTime.equals(customDate + " " + customTime)) {
                         sendNotification(patient.getPatientUid());
+                        sendBroadcastToOtherApp(patient.getPatientUid());
                     }
                 }
             }
@@ -69,5 +76,23 @@ public class NotificationWorker extends Worker {
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT);
 
         notificationManager.notify(1, builder.build());
+
+        // Show Toast and log the notification sending
+        new Handler(Looper.getMainLooper()).post(() -> {
+            Toast.makeText(getApplicationContext(), "Notification sent for " + patientName, Toast.LENGTH_SHORT).show();
+        });
+        Log.d("TAG", "Notification sent for " + patientName);
+    }
+
+    private void sendBroadcastToOtherApp(String patientName) {
+        Intent intent = new Intent("com.visthome.PATIENT_REMINDER");
+        intent.putExtra("patientName", patientName);
+        getApplicationContext().sendBroadcast(intent);
+
+        // Show Toast and log the broadcast sending
+        new Handler(Looper.getMainLooper()).post(() -> {
+            Toast.makeText(getApplicationContext(), "Broadcast sent for " + patientName, Toast.LENGTH_SHORT).show();
+        });
+        Log.d("TAGone", "Broadcast sent for " + patientName);
     }
 }
