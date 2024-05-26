@@ -72,7 +72,7 @@ public class NotificationWorker extends Worker {
         NotificationCompat.Builder builder = new NotificationCompat.Builder(getApplicationContext(), "channel_id")
                 .setSmallIcon(R.drawable.notification)
                 .setContentTitle("Patient Reminder")
-                .setContentText("It's time for " + patientName + " to take their medication")
+                .setContentText("It's time to take your medication")
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT);
 
         notificationManager.notify(1, builder.build());

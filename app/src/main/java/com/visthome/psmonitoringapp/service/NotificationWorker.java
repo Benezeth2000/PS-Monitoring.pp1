@@ -28,11 +28,11 @@ public class NotificationWorker extends Worker {
     @NonNull
     @Override
     public Result doWork() {
-        checkPatients();
+        //checkPatients();
         return Result.success();
     }
 
-    private void checkPatients() {
+    /*private void checkPatients() {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         db.collection("Patients").get().addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
@@ -62,12 +62,12 @@ public class NotificationWorker extends Worker {
             notificationManager.createNotificationChannel(channel);
         }
 
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(getApplicationContext(), "channel_id")
+       NotificationCompat.Builder builder = new NotificationCompat.Builder(getApplicationContext(), "channel_id")
                 .setSmallIcon(R.drawable.notification)
                 .setContentTitle("Patient Reminder")
                 .setContentText("It's time for " + patientName + " to take their medication")
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT);
 
         notificationManager.notify(1, builder.build());
-    }
+    }*/
 }

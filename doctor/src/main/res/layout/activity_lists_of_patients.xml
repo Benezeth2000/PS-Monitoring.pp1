@@ -73,11 +73,24 @@
         android:textSize="@dimen/_18sdp"
         android:textStyle="bold" />
 
+    <TextView
+        android:id="@+id/time"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/list"
+        android:layout_marginStart="@dimen/_5sdp"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:gravity="center"
+        android:hint="time"
+        android:textColor="@color/black"
+        android:textSize="@dimen/_18sdp"
+        android:textStyle="bold" />
+
     <ProgressBar
         android:id="@+id/progress_messageChats"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/list"
+        android:layout_below="@+id/time"
         android:layout_centerInParent="true"
         android:layout_gravity="center"
         android:layout_marginTop="@dimen/_10sdp" />

@@ -36,8 +36,12 @@ import com.visthome.doctor.entity.Doctors;
 import com.visthome.doctor.entity.Patients;
 import com.visthome.doctor.service.NotificationService;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.Objects;
 
 public class Lists_of_patients extends AppCompatActivity {
@@ -56,6 +60,16 @@ public class Lists_of_patients extends AppCompatActivity {
         progressBar = findViewById(R.id.progress_messageChats);
         signOut = findViewById(R.id.logOut);
         TextView username = findViewById(R.id.username);
+        TextView time = findViewById(R.id.time);
+
+        // Get the current date and time
+        //String currentDateTime = getCurrentDateTime();
+
+        SimpleDateFormat sdf = new SimpleDateFormat("MMM dd, yyyy hh:mm a", Locale.getDefault());
+        String currentDateTime = sdf.format(new Date());
+
+        // Set the current date and time to the TextView
+        time.setText(currentDateTime);
 
         // Start the Notification Service
         //Ensure the Service starts when your app launches.
@@ -161,6 +175,16 @@ public class Lists_of_patients extends AppCompatActivity {
             }
         });
         builder.show();
+    }
+
+    private String getCurrentDateTime() {
+        // Create a date format
+        SimpleDateFormat dateFormat = new SimpleDateFormat("MMM dd, yyyy HH:mm a", Locale.getDefault());
+        // Get the current date and time
+        return dateFormat.format(new Date());
+
+        //Calendar calendar = Calendar.getInstance();
+       // return dateFormat.format(calendar.getTime());
     }
 
 
