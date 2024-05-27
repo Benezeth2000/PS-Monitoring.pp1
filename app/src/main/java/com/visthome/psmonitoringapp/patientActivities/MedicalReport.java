@@ -1,8 +1,10 @@
-package com.visthome.psmonitoringapp;
+package com.visthome.psmonitoringapp.patientActivities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+
+import com.visthome.psmonitoringapp.R;
 
 public class MedicalReport extends AppCompatActivity {
 

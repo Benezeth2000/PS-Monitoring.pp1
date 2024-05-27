@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">PS Monitoring app</string>
+
+    <string-array name="times">
+        <item>Select time</item>
+        <item>9:00 AM</item>
+        <item>10:00 AM</item>
+        <item>11:00 AM</item>
+        <!-- Add more times as needed -->
+    </string-array>
 </resources>

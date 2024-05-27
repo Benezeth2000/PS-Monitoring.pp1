@@ -1,4 +1,4 @@
-package com.visthome.psmonitoringapp;
+package com.visthome.psmonitoringapp.patientActivities;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -13,6 +13,7 @@ import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.visthome.psmonitoringapp.Adapter.ListAppointmentAdapter;
+import com.visthome.psmonitoringapp.R;
 import com.visthome.psmonitoringapp.entity.Patients;
 
 public class Appointment extends AppCompatActivity {

@@ -7,7 +7,7 @@
     android:orientation="vertical"
     android:background="@drawable/app_back"
     android:gravity="center"
-    tools:context=".MainActivity">
+    tools:context=".patientActivities.MainActivity">
 
 
     <LinearLayout
@@ -34,7 +34,7 @@
             android:layout_marginTop="@dimen/_20sdp"
             android:layout_gravity="center"
             android:background="@drawable/edit_text_rounded_corner"
-            android:drawableLeft="@drawable/email"
+            android:drawableLeft="@drawable/emailone"
             android:drawablePadding="@dimen/_13sdp"
             android:hint="email"
             android:textColor="@color/black" />

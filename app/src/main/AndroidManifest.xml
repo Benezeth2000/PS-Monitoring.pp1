@@ -3,9 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
-    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
-    <uses-permission android:name="android.permission.INTERNET"/>
-
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
@@ -17,37 +16,53 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.PSMonitoringApp"
         tools:targetApi="31">
+        <activity
+            android:name=".doktaActivities.Medical_report"
+            android:exported="false" />
+        <activity
+            android:name=".doktaActivities.Lists_of_patients"
+            android:exported="false" />
+        <activity
+            android:name=".doktaActivities.Lists_of_appointments"
+            android:exported="false" />
+        <activity
+            android:name=".doktaActivities.Doctor_profile"
+            android:exported="false" />
+        <activity
+            android:name=".doktaActivities.Calender"
+            android:exported="false" />
 
-        <receiver android:name=".service.NotificationReceiver"
+        <receiver
+            android:name=".service.NotificationReceiver"
             android:exported="true">
             <intent-filter>
-                <action android:name="com.visthome.PATIENT_REMINDER"/>
+                <action android:name="com.visthome.PATIENT_REMINDER" />
             </intent-filter>
         </receiver>
 
         <activity
-            android:name=".MedicalReport"
+            android:name=".patientActivities.MedicalReport"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name=".Appointment"
+            android:name=".patientActivities.Appointment"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name=".UserDashboard"
+            android:name=".patientActivities.UserDashboard"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name=".MainActivity"
+            android:name=".patientActivities.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

@@ -1,4 +1,4 @@
-package com.visthome.psmonitoringapp;
+package com.visthome.psmonitoringapp.patientActivities;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -21,6 +21,7 @@ import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.messaging.FirebaseMessaging;
+import com.visthome.psmonitoringapp.R;
 import com.visthome.psmonitoringapp.entity.Patients;
 
 import java.util.Objects;

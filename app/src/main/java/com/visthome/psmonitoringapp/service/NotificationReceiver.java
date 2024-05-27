@@ -8,7 +8,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import androidx.core.app.NotificationCompat;
-import com.visthome.psmonitoringapp.MainActivity;
+import com.visthome.psmonitoringapp.patientActivities.MainActivity;
 import com.visthome.psmonitoringapp.R;
 
 public class NotificationReceiver extends BroadcastReceiver {

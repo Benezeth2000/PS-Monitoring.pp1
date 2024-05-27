@@ -4,14 +4,17 @@ public class AllUsers {
     String email;
     String password;
     String uniqueID;
+    String role;
 
     public AllUsers() {
     }
 
-    public AllUsers(String email, String password, String uniqueID) {
+
+    public AllUsers(String email, String password, String uniqueID, String role) {
         this.email = email;
         this.password = password;
         this.uniqueID = uniqueID;
+        this.role = role;
     }
 
     public String getEmail() {
@@ -36,5 +39,13 @@ public class AllUsers {
 
     public void setUniqueID(String uniqueID) {
         this.uniqueID = uniqueID;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
     }
 }
