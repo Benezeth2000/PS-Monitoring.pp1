@@ -243,27 +243,15 @@
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/textInputLayoutDash"
-        android:layout_width="@dimen/_50sdp"
-        android:layout_height="@dimen/_50sdp"
-        android:layout_alignParentBottom="true"
-        android:layout_centerInParent="true"
-        android:layout_marginEnd="10dp"
-        android:layout_marginBottom="@dimen/_4sdp"
-        android:background="@drawable/add_account"
-        app:boxBackgroundColor="@android:color/transparent"
-        app:boxBackgroundMode="outline"
-        app:boxStrokeWidth="2dp"
-        app:hintEnabled="true">
-
         <ImageView
+            android:id="@+id/addPatientInList"
             android:layout_width="@dimen/_50sdp"
             android:layout_height="@dimen/_50sdp"
             android:gravity="center"
+            android:background="@drawable/add_account"
+            android:layout_alignParentBottom="true"
+            android:layout_centerInParent="true"
             android:layout_gravity="center_horizontal"
             android:src="@drawable/add" />
-
-    </com.google.android.material.textfield.TextInputLayout>
 
 </RelativeLayout>

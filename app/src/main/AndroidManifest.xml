@@ -62,6 +62,13 @@
                 android:value="" />
         </activity>
         <activity
+            android:name=".doktaActivities.Add_patient_in_my_list"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
             android:name=".patientActivities.MainActivity"
             android:exported="true">
             <intent-filter>

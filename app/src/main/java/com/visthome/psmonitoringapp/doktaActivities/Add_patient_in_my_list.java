@@ -29,6 +29,7 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.visthome.psmonitoringapp.R;
+import com.visthome.psmonitoringapp.entity.AllUsers;
 import com.visthome.psmonitoringapp.entity.Patients;
 
 import java.util.Date;
@@ -40,7 +41,6 @@ public class Add_patient_in_my_list extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
         setContentView(R.layout.activity_add_patient_in_my_list);
 
         EditText firtName = findViewById(R.id.firtName);
@@ -90,6 +90,7 @@ public class Add_patient_in_my_list extends AppCompatActivity {
 
                 // Get reference to the businessAccount document
                 CollectionReference patientCollection = db.collection("Patients");
+                CollectionReference allUsers = db.collection("AllUsers");
 
 
                 String Fname = firtName.getText().toString();
@@ -218,33 +219,49 @@ public class Add_patient_in_my_list extends AppCompatActivity {
                                                             Time
                                                     );
 
+                                                    String role = "patient";
+
+                                                    AllUsers allUsers1 = new AllUsers(email, pass, userId, role);
+
                                                     patientCollection.document(userId).
 
                                                             set(createPatient)
                                                             .addOnSuccessListener(new OnSuccessListener<Void>() {
                                                                 @Override
                                                                 public void onSuccess(Void unused) {
-                                                                    firtName.setText("");
-                                                                    middleName.setText("");
-                                                                    lastName.setText("");
-                                                                    job.setText("");
-                                                                    phoNo.setText("");
-                                                                    address.setText("");
-                                                                    diseases.setText("");
-                                                                    patientPass.setText("");
-                                                                    patientEmail.setText("");
-                                                                    dialog.dismiss();
-                                                                    Toast.makeText(Add_patient_in_my_list.this, "Patient added successful", Toast.LENGTH_LONG).show();
-                                                                }
-                                                            }).
 
-                                                            addOnFailureListener(new OnFailureListener() {
+                                                                    allUsers.document(userId)
+                                                                            .set(allUsers1).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                                                @Override
+                                                                                public void onSuccess(Void unused) {
+                                                                                    firtName.setText("");
+                                                                                    middleName.setText("");
+                                                                                    lastName.setText("");
+                                                                                    job.setText("");
+                                                                                    phoNo.setText("");
+                                                                                    address.setText("");
+                                                                                    diseases.setText("");
+                                                                                    patientPass.setText("");
+                                                                                    patientEmail.setText("");
+                                                                                    dialog.dismiss();
+                                                                                    Toast.makeText(Add_patient_in_my_list.this, "Patient added successful", Toast.LENGTH_LONG).show();
+                                                                                }
+                                                                            }).addOnFailureListener(new OnFailureListener() {
+                                                                                @Override
+                                                                                public void onFailure(@NonNull Exception e) {
+                                                                                    dialog.dismiss();
+                                                                                    Toast.makeText(Add_patient_in_my_list.this, "Failed to add patient, try again ", Toast.LENGTH_SHORT).show();
+                                                                                }
+                                                                            });
+                                                                }
+                                                            }).addOnFailureListener(new OnFailureListener() {
                                                                 @Override
                                                                 public void onFailure(@NonNull Exception e) {
                                                                     dialog.dismiss();
                                                                     Toast.makeText(Add_patient_in_my_list.this, "Failed to add patient, try again ", Toast.LENGTH_SHORT).show();
                                                                 }
                                                             });
+
                                                 }
                                             }
                                         });

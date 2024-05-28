@@ -10,6 +10,8 @@ import android.view.View;
 import android.widget.ProgressBar;
 
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.visthome.psmonitoringapp.Adapter.ListAppointmentAdapter;
@@ -34,8 +36,11 @@ public class Appointment extends AppCompatActivity {
 
     private void retrieveAll() {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        String pEmail = currentUser.getEmail();
 
-        Query query = db.collection("Patients");
+        Query query = db.collection("Patients")
+                .whereEqualTo("patientEmail", pEmail);
 
         FirestoreRecyclerOptions<Patients> options = new FirestoreRecyclerOptions.Builder<Patients>()
                 .setQuery(query, Patients.class).build();

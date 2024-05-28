@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -56,7 +57,7 @@ public class Lists_of_patients extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lists_of_patients);
 
-        TextInputLayout addP = findViewById(R.id.textInputLayoutDash);
+        ImageView addP = findViewById(R.id.addPatientInList);
         recyclerView = findViewById(R.id.recyclerView);
         progressBar = findViewById(R.id.progress_messageChats);
         signOut = findViewById(R.id.logOut);
