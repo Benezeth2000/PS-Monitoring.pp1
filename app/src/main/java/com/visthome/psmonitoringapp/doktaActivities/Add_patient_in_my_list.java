@@ -2,6 +2,7 @@ package com.visthome.psmonitoringapp.doktaActivities;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -11,6 +12,7 @@ import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
@@ -28,15 +30,24 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 import com.visthome.psmonitoringapp.R;
 import com.visthome.psmonitoringapp.entity.AllUsers;
 import com.visthome.psmonitoringapp.entity.Patients;
 
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
 public class Add_patient_in_my_list extends AppCompatActivity {
     private FirebaseAuth mAuth;
+    private FirebaseStorage storage;
+    private FirebaseFirestore firestore;
+    private Uri pdfUri;
+    private static final int PICK_PDF_REQUEST = 234;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +67,7 @@ public class Add_patient_in_my_list extends AppCompatActivity {
         TextView scheduled = findViewById(R.id.scheduled);
         TextView time = findViewById(R.id.time);
         Button add = findViewById(R.id.addPatient);
+        TextView selectPdf = findViewById(R.id.selectMedicalReport);
 
         Intent intent = getIntent();
         String getCustomDate = intent.getStringExtra("customDate");
@@ -66,6 +78,10 @@ public class Add_patient_in_my_list extends AppCompatActivity {
 
         // Initialize Firebase Auth
         mAuth = FirebaseAuth.getInstance();
+        storage = FirebaseStorage.getInstance();
+        firestore = FirebaseFirestore.getInstance();
+
+        // Trigger file picker intent
 
         selectDate.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -276,4 +292,5 @@ public class Add_patient_in_my_list extends AppCompatActivity {
             }
         });
     }
+
 }
