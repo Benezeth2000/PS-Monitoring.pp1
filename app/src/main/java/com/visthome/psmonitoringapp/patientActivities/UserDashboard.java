@@ -22,6 +22,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.visthome.psmonitoringapp.R;
+import com.visthome.psmonitoringapp.doktaService.NotificationService;
 import com.visthome.psmonitoringapp.entity.Patients;
 
 import java.util.Objects;
@@ -37,6 +38,11 @@ public class UserDashboard extends AppCompatActivity {
         signOut = findViewById(R.id.logOut);
         TextView username = findViewById(R.id.username);
         TextView appointment = findViewById(R.id.appointment);
+
+        // Start the Notification Service
+        //Ensure the Service starts when your app launches.
+        Intent serviceIntent = new Intent(this, NotificationService.class);
+        startService(serviceIntent);
 
         //Code for log out
         signOut.setOnClickListener((v) -> {

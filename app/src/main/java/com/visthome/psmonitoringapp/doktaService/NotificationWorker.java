@@ -3,7 +3,6 @@ package com.visthome.psmonitoringapp.doktaService;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Build;
 import android.os.Handler;
 import android.os.Looper;
@@ -26,6 +25,7 @@ import java.util.Locale;
 
 public class NotificationWorker extends Worker {
     private static final String TAG = "NotificationWorker";
+
     public NotificationWorker(@NonNull Context context, @NonNull WorkerParameters workerParams) {
         super(context, workerParams);
     }
@@ -50,16 +50,18 @@ public class NotificationWorker extends Worker {
                     SimpleDateFormat sdf = new SimpleDateFormat("MMM dd, yyyy hh:mm a", Locale.getDefault());
                     String currentDateTime = sdf.format(new Date());
 
+                    Log.d(TAG, "Current DateTime: " + currentDateTime);
+                    Log.d(TAG, "Custom DateTime: " + customDate + " " + customTime);
+
                     if (currentDateTime.equals(customDate + " " + customTime)) {
                         sendNotification(patient.getPatientUid());
-                        sendBroadcastToOtherApp(patient.getPatientUid());
                     }
                 }
             }
         });
     }
 
-    private void sendNotification(String patientName) {
+    private void sendNotification(String patientUid) {
         NotificationManager notificationManager =
                 (NotificationManager) getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);
 
@@ -74,24 +76,12 @@ public class NotificationWorker extends Worker {
                 .setContentText("It's time to take your medication")
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT);
 
-        notificationManager.notify(1, builder.build());
+        notificationManager.notify(patientUid.hashCode(), builder.build());
 
         // Show Toast and log the notification sending
         new Handler(Looper.getMainLooper()).post(() -> {
-            Toast.makeText(getApplicationContext(), "Notification sent for " + patientName, Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "Notification sent for patient UID: " + patientUid, Toast.LENGTH_SHORT).show();
         });
-        Log.d("TAG", "Notification sent for " + patientName);
-    }
-
-    private void sendBroadcastToOtherApp(String patientName) {
-        Intent intent = new Intent("com.visthome.PATIENT_REMINDER");
-        intent.putExtra("patientName", patientName);
-        getApplicationContext().sendBroadcast(intent);
-
-        // Show Toast and log the broadcast sending
-        new Handler(Looper.getMainLooper()).post(() -> {
-            Toast.makeText(getApplicationContext(), "Broadcast sent for " + patientName, Toast.LENGTH_SHORT).show();
-        });
-        Log.d("TAGone", "Broadcast sent for " + patientName);
+        Log.d(TAG, "Notification sent for patient UID: " + patientUid);
     }
 }

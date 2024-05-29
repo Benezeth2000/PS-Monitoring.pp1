@@ -34,12 +34,7 @@
             android:exported="false" />
 
         <receiver
-            android:name=".service.NotificationReceiver"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="com.visthome.PATIENT_REMINDER" />
-            </intent-filter>
-        </receiver>
+            android:name=".doktaService.NotificationReceiver"/>
 
         <activity
             android:name=".patientActivities.MedicalReport"
