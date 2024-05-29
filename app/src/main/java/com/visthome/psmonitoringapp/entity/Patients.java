@@ -21,11 +21,12 @@ public class Patients {
     Date date;
     String customDate;
     String customTime;
+    String medicalPdf;
 
     public Patients() {
     }
 
-    public Patients(String patientUid, String doctorName, String doctorUid, String doctorEmail, String uploadId, String firstName, String middleName, String lastName, String address, String job, String phoneNo, String diseases, String timestamp, String patientEmail, String patientPass, Date date, String customDate, String customTime) {
+    public Patients(String patientUid, String doctorName, String doctorUid, String doctorEmail, String uploadId, String firstName, String middleName, String lastName, String address, String job, String phoneNo, String diseases, String timestamp, String patientEmail, String patientPass, Date date, String customDate, String customTime, String medicalPdf) {
         this.patientUid = patientUid;
         this.doctorName = doctorName;
         this.doctorUid = doctorUid;
@@ -44,6 +45,7 @@ public class Patients {
         this.date = date;
         this.customDate = customDate;
         this.customTime = customTime;
+        this.medicalPdf = medicalPdf;
     }
 
     public String getPatientUid() {
@@ -188,5 +190,13 @@ public class Patients {
 
     public void setCustomTime(String customTime) {
         this.customTime = customTime;
+    }
+
+    public String getMedicalPdf() {
+        return medicalPdf;
+    }
+
+    public void setMedicalPdf(String medicalPdf) {
+        this.medicalPdf = medicalPdf;
     }
 }

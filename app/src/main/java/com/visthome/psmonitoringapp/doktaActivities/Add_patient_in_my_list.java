@@ -47,7 +47,8 @@ public class Add_patient_in_my_list extends AppCompatActivity {
     private FirebaseStorage storage;
     private FirebaseFirestore firestore;
     private Uri pdfUri;
-    private static final int PICK_PDF_REQUEST = 234;
+    private static final int PICK_PDF_FILE = 2;
+    private TextView pdfUrlTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,7 +68,7 @@ public class Add_patient_in_my_list extends AppCompatActivity {
         TextView scheduled = findViewById(R.id.scheduled);
         TextView time = findViewById(R.id.time);
         Button add = findViewById(R.id.addPatient);
-        TextView selectPdf = findViewById(R.id.selectMedicalReport);
+        pdfUrlTextView = findViewById(R.id.selectMedicalReport);
 
         Intent intent = getIntent();
         String getCustomDate = intent.getStringExtra("customDate");
@@ -78,10 +79,16 @@ public class Add_patient_in_my_list extends AppCompatActivity {
 
         // Initialize Firebase Auth
         mAuth = FirebaseAuth.getInstance();
-        storage = FirebaseStorage.getInstance();
-        firestore = FirebaseFirestore.getInstance();
+        FirebaseStorage storage = FirebaseStorage.getInstance();
+        StorageReference storageRef = storage.getReference();
 
         // Trigger file picker intent
+        pdfUrlTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openFilePicker();
+            }
+        });
 
         selectDate.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -189,108 +196,134 @@ public class Add_patient_in_my_list extends AppCompatActivity {
                 dialog.show();
 
                 FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+                String pdfUrlString = pdfUrlTextView.getText().toString();
+                if (!pdfUrlString.isEmpty()) {
+                    pdfUri = Uri.parse(pdfUrlString);
 
+                    FirebaseAuth.getInstance().createUserWithEmailAndPassword(email, pass).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            // User registered successfully
+                            FirebaseUser currentUser1 = FirebaseAuth.getInstance().getCurrentUser();
 
-                FirebaseAuth.getInstance().createUserWithEmailAndPassword(email, pass)
-                        .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                            @Override
-                            public void onComplete(@NonNull Task<AuthResult> task) {
-                                if (task.isSuccessful()) {
-                                    // User registered successfully
-                                    FirebaseUser currentUser1 = FirebaseAuth.getInstance().getCurrentUser();
+                            if (currentUser1 != null) {
+                                FirebaseFirestore dbUser = FirebaseFirestore.getInstance();
 
-                                    if (currentUser1 != null) {
-                                        FirebaseFirestore dbUser = FirebaseFirestore.getInstance();
+                                assert currentUser != null;
+                                DocumentReference doctorRef = dbUser.collection("Doctors").document(currentUser.getUid());
 
-                                        DocumentReference doctorRef = dbUser.collection("Doctors").document(currentUser.getUid());
+                                doctorRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                                    @Override
+                                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+                                        if (documentSnapshot.exists()) {
+                                            String doctorName = documentSnapshot.getString("doctorName");
+                                            String doctorUid = documentSnapshot.getString("doctorUid");
+                                            String doctorEmail = documentSnapshot.getString("email");
 
-                                        doctorRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                                            @Override
-                                            public void onSuccess(DocumentSnapshot documentSnapshot) {
-                                                if (documentSnapshot.exists()) {
-                                                    String doctorName = documentSnapshot.getString("doctorName");
-                                                    String doctorUid = documentSnapshot.getString("doctorUid");
-                                                    String doctorEmail = documentSnapshot.getString("email");
+                                            String userId = Objects.requireNonNull(currentUser1).getUid();
 
-                                                    String userId = Objects.requireNonNull(currentUser1).getUid();
+                                                StorageReference pdfRef = storageRef.child("patients/" + userId + "/" + pdfUri.getLastPathSegment());
+                                                pdfRef.putFile(pdfUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                                                    @Override
+                                                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                                                        pdfRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                                            @Override
+                                                            public void onSuccess(Uri downloadUrl) {
+                                                                Patients createPatient = new Patients(userId, doctorName, doctorUid, doctorEmail, uploadId, Fname, Mname, Lname, addr, work, phoneNo, dises, currentTime, email, pass, currentDate, timeTomeet, Time, downloadUrl.toString());
 
-                                                    Patients createPatient = new Patients(
-                                                            userId,
-                                                            doctorName,
-                                                            doctorUid,
-                                                            doctorEmail,
-                                                            uploadId,
-                                                            Fname,
-                                                            Mname,
-                                                            Lname,
-                                                            addr,
-                                                            work,
-                                                            phoneNo,
-                                                            dises,
-                                                            currentTime,
-                                                            email,
-                                                            pass,
-                                                            currentDate,
-                                                            timeTomeet,
-                                                            Time
-                                                    );
+                                                                String role = "patient";
 
-                                                    String role = "patient";
+                                                                AllUsers allUsers1 = new AllUsers(email, pass, userId, role);
 
-                                                    AllUsers allUsers1 = new AllUsers(email, pass, userId, role);
+                                                                patientCollection.document(userId).
 
-                                                    patientCollection.document(userId).
+                                                                        set(createPatient).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                                            @Override
+                                                                            public void onSuccess(Void unused) {
 
-                                                            set(createPatient)
-                                                            .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                                                @Override
-                                                                public void onSuccess(Void unused) {
-
-                                                                    allUsers.document(userId)
-                                                                            .set(allUsers1).addOnSuccessListener(new OnSuccessListener<Void>() {
-                                                                                @Override
-                                                                                public void onSuccess(Void unused) {
-                                                                                    firtName.setText("");
-                                                                                    middleName.setText("");
-                                                                                    lastName.setText("");
-                                                                                    job.setText("");
-                                                                                    phoNo.setText("");
-                                                                                    address.setText("");
-                                                                                    diseases.setText("");
-                                                                                    patientPass.setText("");
-                                                                                    patientEmail.setText("");
-                                                                                    dialog.dismiss();
-                                                                                    Toast.makeText(Add_patient_in_my_list.this, "Patient added successful", Toast.LENGTH_LONG).show();
-                                                                                }
-                                                                            }).addOnFailureListener(new OnFailureListener() {
-                                                                                @Override
-                                                                                public void onFailure(@NonNull Exception e) {
-                                                                                    dialog.dismiss();
-                                                                                    Toast.makeText(Add_patient_in_my_list.this, "Failed to add patient, try again ", Toast.LENGTH_SHORT).show();
-                                                                                }
-                                                                            });
-                                                                }
-                                                            }).addOnFailureListener(new OnFailureListener() {
-                                                                @Override
-                                                                public void onFailure(@NonNull Exception e) {
-                                                                    dialog.dismiss();
-                                                                    Toast.makeText(Add_patient_in_my_list.this, "Failed to add patient, try again ", Toast.LENGTH_SHORT).show();
-                                                                }
-                                                            });
-
-                                                }
-                                            }
-                                        });
-
-
+                                                                                allUsers.document(userId).set(allUsers1).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                                                    @Override
+                                                                                    public void onSuccess(Void unused) {
+                                                                                        firtName.setText("");
+                                                                                        middleName.setText("");
+                                                                                        lastName.setText("");
+                                                                                        job.setText("");
+                                                                                        phoNo.setText("");
+                                                                                        address.setText("");
+                                                                                        diseases.setText("");
+                                                                                        patientPass.setText("");
+                                                                                        patientEmail.setText("");
+                                                                                        dialog.dismiss();
+                                                                                        Toast.makeText(Add_patient_in_my_list.this, "Patient added successful", Toast.LENGTH_LONG).show();
+                                                                                    }
+                                                                                }).addOnFailureListener(new OnFailureListener() {
+                                                                                    @Override
+                                                                                    public void onFailure(@NonNull Exception e) {
+                                                                                        dialog.dismiss();
+                                                                                        Toast.makeText(Add_patient_in_my_list.this, "Failed to add patient, try again ", Toast.LENGTH_SHORT).show();
+                                                                                    }
+                                                                                });
+                                                                            }
+                                                                        }).addOnFailureListener(new OnFailureListener() {
+                                                                            @Override
+                                                                            public void onFailure(@NonNull Exception e) {
+                                                                                dialog.dismiss();
+                                                                                Toast.makeText(Add_patient_in_my_list.this, "Failed to add patient, try again ", Toast.LENGTH_SHORT).show();
+                                                                            }
+                                                                        });
+                                                            }
+                                                        }).addOnFailureListener(new OnFailureListener() {
+                                                            @Override
+                                                            public void onFailure(@NonNull Exception e) {
+                                                                dialog.dismiss();
+                                                                Toast.makeText(Add_patient_in_my_list.this, "Failed to get download URL, try again", Toast.LENGTH_SHORT).show();
+                                                            }
+                                                        });
+                                                    }
+                                                }).addOnFailureListener(new OnFailureListener() {
+                                                    @Override
+                                                    public void onFailure(@NonNull Exception e) {
+                                                        dialog.dismiss();
+                                                        Toast.makeText(Add_patient_in_my_list.this, "Failed to upload PDF, try again", Toast.LENGTH_SHORT).show();
+                                                    }
+                                                });
+                                        }
                                     }
-                                }
+                                });
+
+
                             }
-                        });
+                        }
+                    }
+                });
+            }else {
+                dialog.dismiss();
+                Toast.makeText(Add_patient_in_my_list.this, "No PDF file selected", Toast.LENGTH_SHORT).show();
+            }
 
 
             }
         });
+    }
+
+    void openFilePicker() {
+        Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+        intent.addCategory(Intent.CATEGORY_OPENABLE);
+        intent.setType("application/pdf");
+        startActivityForResult(intent, PICK_PDF_FILE);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == PICK_PDF_FILE && resultCode == RESULT_OK) {
+            if (data != null) {
+                Uri pdfUri = data.getData();
+                assert pdfUri != null;
+                pdfUrlTextView.setText(pdfUri.toString());
+            }
+        }
     }
 
 }
