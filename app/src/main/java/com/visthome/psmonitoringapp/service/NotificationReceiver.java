@@ -30,8 +30,8 @@ public class NotificationReceiver extends BroadcastReceiver {
         OneTimeWorkRequest workRequest = new OneTimeWorkRequest.Builder(NotificationWorker.class).build();
         WorkManager.getInstance(context).enqueue(workRequest);
         // Create and show the notification
-        createNotificationChannel(context);
-        createNotification(context);
+        //createNotificationChannel(context);
+        //createNotification(context);
     }
 
     private void createNotification(Context context) {
