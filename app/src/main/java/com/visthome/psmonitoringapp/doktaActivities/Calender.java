@@ -1,5 +1,8 @@
 package com.visthome.psmonitoringapp.doktaActivities;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -7,30 +10,30 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CalendarView;
+import android.widget.DatePicker;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
-import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.visthome.psmonitoringapp.AlarmReceiver.AlarmReceive;
 import com.visthome.psmonitoringapp.R;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
 import java.util.Locale;
 
 public class Calender extends AppCompatActivity {
-
+    private Button showDateTimeButton, setAlarmButton;
+    private DatePicker datePicker;
+    private TimePicker timePicker;
     private Button next, previous;
     private TextView monthYearText;
     private RecyclerView calenderRecyclerView;
@@ -47,16 +50,37 @@ public class Calender extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_calender);
 
+       /* showDateTimeButton = findViewById(R.id.showDateTimeButton);
+        setAlarmButton = findViewById(R.id.setAlarmButton);
+        datePicker = findViewById(R.id.datePicker);
+        timePicker = findViewById(R.id.timePicker);
+
+        showDateTimeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                
+                toggleDateTimeVisibility();
+            }
+        });
+
+        setAlarmButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setAlarmMethod();
+            }
+        });*/
+
         CalendarView calendarView = findViewById(R.id.calendarView);
-        /*final TextView selectedDay = findViewById(R.id.selectedDay);
-        final TextView selectedMonth = findViewById(R.id.selectedMonth);
-        final TextView selectedYear = findViewById(R.id.selectedYear);*/
-        final TextView textInput = findViewById(R.id.textInput);
+        //final TextView selectedDay = findViewById(R.id.selectedDay);
+        //final TextView selectedMonth = findViewById(R.id.selectedMonth);
+        //final TextView selectedYear = findViewById(R.id.selectedYear);
+        final TextView textInput = findViewById(R.id.selectedYear);
+        timePicker = findViewById(R.id.timePicker);
         //final TextView selectedTime = findViewById(R.id.selectedTime);
         final Button save = findViewById(R.id.save);
         final View dayContent = findViewById(R.id.dayContent);
 
-        Spinner timeSpinner = findViewById(R.id.selectedTime);
+        //Spinner timeSpinner = findViewById(R.id.selectedTime);
 
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
                 this,
@@ -64,7 +88,17 @@ public class Calender extends AppCompatActivity {
                 android.R.layout.simple_spinner_item
         );
 
-        timeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        /*timePicker.setOnTimeChangedListener(new TimePicker.OnTimeChangedListener() {
+            @Override
+            public void onTimeChanged(TimePicker view, int hourOfDay, int minute) {
+                int hour = timePicker.getHour();
+                int minut = timePicker.getMinute();
+
+                selectedYear.setText(hour + " " + minut);
+            }
+        });*/
+
+        /*timeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, android.view.View view, int position, long id) {
                 String selectedTime = (String) parent.getItemAtPosition(position);
@@ -76,9 +110,9 @@ public class Calender extends AppCompatActivity {
             public void onNothingSelected(AdapterView<?> parent) {
                 // Do nothing
             }
-        });
+        });*/
 
-        List<String> calendarStrings = new ArrayList<>();
+        //List<String> calendarStrings = new ArrayList<>();
 
         calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
             @Override
@@ -115,7 +149,23 @@ public class Calender extends AppCompatActivity {
                 //textInput.setText("");
 
                 String gotDate = textInput.getText().toString();
-                String gotTime = timeSpinner.getSelectedItem().toString();
+                int hour = timePicker.getHour();
+                int minute = timePicker.getMinute();
+
+                String period = hour < 12 ? "AM" : "PM";
+                if (hour > 12) {
+                    hour -= 12;
+                } else if (hour == 0) {
+                    hour = 12;
+                }
+
+                String hourString = String.valueOf(hour);
+                String minuteString = String.format("%02d", minute);  // Zero-padded minute
+
+                String gotTime = hourString + ":" + minuteString + " " + period;
+
+                /*String gotDate = textInput.getText().toString();
+                String gotTime = timeSpinner.getSelectedItem().toString();*/
 
                 Intent intent = new Intent(Calender.this, Add_patient_in_my_list.class);
                 intent.putExtra("customDate", gotDate);
@@ -126,4 +176,55 @@ public class Calender extends AppCompatActivity {
 
     }
 
+   /* private void setAlarmMethod() {
+        cancelPreviousAlarm();
+
+        int day = datePicker.getDayOfMonth();
+        int month = datePicker.getMonth();
+        int year = datePicker.getYear();
+        int hour = timePicker.getHour();
+        int minute = timePicker.getMinute();
+
+       Calendar calender = Calendar.getInstance();
+       calender.set(year, month, day, hour, minute);
+
+        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+        Intent intent = new Intent(Calender.this, AlarmReceive.class);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(Calender.this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_MUTABLE);
+        alarmManager.set(AlarmManager.RTC_WAKEUP, calender.getTimeInMillis(), pendingIntent);
+
+        Toast.makeText(this, "Alarm set for " + day + "/" + (month +1) + "/" + year + "/" + " at " + hour + ":" + minute, Toast.LENGTH_LONG).show();
+
+        Intent gotoAddPatient = new Intent(Calender.this, Add_patient_in_my_list.class);
+        startActivity(gotoAddPatient);
+    }
+
+    private void cancelPreviousAlarm() {
+        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+        Intent intent = new Intent(Calender.this, AlarmReceive.class);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(Calender.this, 0, intent, PendingIntent.FLAG_IMMUTABLE);
+
+        if (pendingIntent != null){
+            alarmManager.cancel(pendingIntent);
+            pendingIntent.cancel();
+        }
+    }
+
+    private void toggleDateTimeVisibility() {
+        int datevisibility = datePicker.getVisibility();
+        int timevisibility = timePicker.getVisibility();
+
+        if (datevisibility == View.GONE & timevisibility == View.GONE){
+
+            datePicker.setVisibility(View.VISIBLE);
+            timePicker.setVisibility(View.VISIBLE);
+            setAlarmButton.setVisibility(View.VISIBLE);
+        } else {
+
+            datePicker.setVisibility(View.GONE);
+            timePicker.setVisibility(View.GONE);
+            setAlarmButton.setVisibility(View.GONE);
+        }
+    }
+*/
 }

@@ -1,12 +1,13 @@
 package com.visthome.psmonitoringapp.service;
 
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
+import android.Manifest;
 import android.content.Context;
-import android.os.Build;
+import android.content.pm.PackageManager;
 
 import androidx.annotation.NonNull;
+import androidx.core.app.ActivityCompat;
 import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 import androidx.work.Worker;
 import androidx.work.WorkerParameters;
 
@@ -19,8 +20,10 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
-
 public class NotificationWorker extends Worker {
+    private static final String CHANNEL_ID = "channel_id";
+    private static final int NOTIFICATION_ID = 1;
+
     public NotificationWorker(@NonNull Context context, @NonNull WorkerParameters workerParams) {
         super(context, workerParams);
     }
@@ -28,11 +31,13 @@ public class NotificationWorker extends Worker {
     @NonNull
     @Override
     public Result doWork() {
-        //checkPatients();
+        // Perform the task of checking patients and sending notifications
+        checkPatients();
+
         return Result.success();
     }
 
-    /*private void checkPatients() {
+    private void checkPatients() {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         db.collection("Patients").get().addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
@@ -42,11 +47,11 @@ public class NotificationWorker extends Worker {
                     String customDate = patient.getCustomDate();
                     String customTime = patient.getCustomTime();
 
-                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault());
+                    SimpleDateFormat sdf = new SimpleDateFormat("MMM dd, yyyy HH:mm", Locale.getDefault());
                     String currentDateTime = sdf.format(new Date());
 
                     if (currentDateTime.equals(customDate + " " + customTime)) {
-                        sendNotification(patient.getPatientUid());
+                        sendNotification(patient.getLastName());
                     }
                 }
             }
@@ -54,20 +59,17 @@ public class NotificationWorker extends Worker {
     }
 
     private void sendNotification(String patientName) {
-        NotificationManager notificationManager =
-                (NotificationManager) getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            NotificationChannel channel = new NotificationChannel("channel_id", "Channel Name", NotificationManager.IMPORTANCE_DEFAULT);
-            notificationManager.createNotificationChannel(channel);
-        }
-
-       NotificationCompat.Builder builder = new NotificationCompat.Builder(getApplicationContext(), "channel_id")
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(getApplicationContext(), CHANNEL_ID)
                 .setSmallIcon(R.drawable.notification)
                 .setContentTitle("Patient Reminder")
                 .setContentText("It's time for " + patientName + " to take their medication")
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT);
 
-        notificationManager.notify(1, builder.build());
-    }*/
+        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(getApplicationContext());
+        if (ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
+            // Request permissions if not already granted
+            return;
+        }
+        notificationManager.notify(NOTIFICATION_ID, builder.build());
+    }
 }

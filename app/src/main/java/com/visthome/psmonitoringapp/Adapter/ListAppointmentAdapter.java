@@ -30,6 +30,7 @@ public class ListAppointmentAdapter extends FirestoreRecyclerAdapter<Patients, L
         holder.doctorName.setText(model.getDoctorName());
         holder.timeCreated.setText(getElapsedTime(model.getDate()));
         holder.timeOfApp.setText(model.getCustomDate());
+        holder.timeOfAppTime.setText(model.getCustomTime());
     }
 
     @NonNull
@@ -41,13 +42,14 @@ public class ListAppointmentAdapter extends FirestoreRecyclerAdapter<Patients, L
 
     public class AppointmentViewHolder extends RecyclerView.ViewHolder{
         TextView doctorName;
-        TextView timeOfApp;
+        TextView timeOfApp, timeOfAppTime;
         TextView timeCreated;
         public AppointmentViewHolder(@NonNull View itemView) {
             super(itemView);
 
             doctorName = itemView.findViewById(R.id.doctor);
             timeOfApp = itemView.findViewById(R.id.timeOfApp);
+            timeOfAppTime = itemView.findViewById(R.id.timeOfAppTime);
             timeCreated = itemView.findViewById(R.id.timeCreatedApp);
         }
     }

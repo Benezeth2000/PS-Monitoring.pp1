@@ -7,7 +7,7 @@
     android:orientation="vertical"
     tools:context=".doktaActivities.Calender">
 
-    <!--<TextView
+   <!--<TextView
         android:id="@+id/selectedDay"
         android:gravity="center"
         android:textColor="@color/black"
@@ -20,7 +20,7 @@
         android:textColor="@color/black"
         android:layout_width="match_parent"
         android:layout_height="@dimen/_40sdp"/>
-
+-->
     <TextView
         android:id="@+id/selectedYear"
         android:gravity="center"
@@ -28,7 +28,18 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/_40sdp"/>
 
--->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+
+
+
     <CalendarView
         android:id="@+id/calendarView"
         android:layout_width="match_parent"
@@ -42,7 +53,7 @@
         android:orientation="vertical"
         android:visibility="gone">
 
-        <LinearLayout
+        <!--<LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -64,16 +75,14 @@
                 android:entries="@array/times"
                 android:textColor="#2B8C2F" />
 
-        </LinearLayout>
+        </LinearLayout>-->
 
-        <TextView
-            android:id="@+id/textInput"
-            android:layout_width="wrap_content"
-            android:layout_height="@dimen/_40sdp"
-            android:layout_gravity="center"
-            android:layout_marginTop="@dimen/_15ssp"
-            android:hint="enter text"
-            android:textSize="@dimen/_16ssp" />
+        <TimePicker
+            android:id="@+id/timePicker"
+            android:timePickerMode="clock"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            />
 
         <Button
             android:id="@+id/save"
@@ -82,7 +91,55 @@
             android:layout_gravity="center"
             android:text="Save"
             android:textAllCaps="false" />
+
     </LinearLayout>
+
+        </LinearLayout>
+
+    </ScrollView>
+    <!--<Button
+        android:id="@+id/showDateTimeButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_24sdp"
+        android:layout_gravity="center"
+        android:text="Select Date &amp; Time"/>
+
+    <ScrollView
+        android:id="@+id/showDateTimeButtonn"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            
+            <DatePicker
+                android:id="@+id/datePicker"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone"/>
+
+            <TimePicker
+                android:id="@+id/timePicker"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone"/>
+            
+            <Button
+                android:id="@+id/setAlarmButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_24sdp"
+                android:text="Set Alarm"
+                android:textColor="#fff"
+                android:textSize="@dimen/_18ssp"
+                android:visibility="gone"/>
+
+        </LinearLayout>
+    </ScrollView>-->
 
 
 </LinearLayout>

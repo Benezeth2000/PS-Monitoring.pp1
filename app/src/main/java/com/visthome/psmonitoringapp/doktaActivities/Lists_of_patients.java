@@ -1,10 +1,14 @@
 package com.visthome.psmonitoringapp.doktaActivities;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.SystemClock;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -35,10 +39,10 @@ import com.google.firebase.firestore.Query;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.visthome.psmonitoringapp.R;
 import com.visthome.psmonitoringapp.doktaAdapter.ListPatientAdapter;
-import com.visthome.psmonitoringapp.doktaService.NotificationService;
 import com.visthome.psmonitoringapp.entity.Doctors;
 import com.visthome.psmonitoringapp.entity.Patients;
 import com.visthome.psmonitoringapp.patientActivities.MainActivity;
+import com.visthome.psmonitoringapp.service.NotificationReceiver;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -73,10 +77,12 @@ public class Lists_of_patients extends AppCompatActivity {
         // Set the current date and time to the TextView
         time.setText(currentDateTime);
 
+        scheduleAlarm();
+
         // Start the Notification Service
         //Ensure the Service starts when your app launches.
-        Intent serviceIntent = new Intent(this, NotificationService.class);
-        startService(serviceIntent);
+       // Intent serviceIntent = new Intent(this, NotificationService.class);
+        //startService(serviceIntent);
 
         //Code for log out
         signOut.setOnClickListener((v) -> {
@@ -187,6 +193,15 @@ public class Lists_of_patients extends AppCompatActivity {
 
         //Calendar calendar = Calendar.getInstance();
         // return dateFormat.format(calendar.getTime());
+    }
+
+    private void scheduleAlarm() {
+        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+        Intent intent = new Intent(this, NotificationReceiver.class);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        long interval = 60 * 1000; // 1 minute in milliseconds
+        alarmManager.setRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP, SystemClock.elapsedRealtime(), interval, pendingIntent);
     }
 
 

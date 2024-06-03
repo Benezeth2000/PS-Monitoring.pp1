@@ -5,10 +5,14 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -22,9 +26,10 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.visthome.psmonitoringapp.R;
-import com.visthome.psmonitoringapp.doktaService.NotificationService;
 import com.visthome.psmonitoringapp.entity.Patients;
+import com.visthome.psmonitoringapp.service.NotificationReceiver;
 
+import java.util.Calendar;
 import java.util.Objects;
 
 public class UserDashboard extends AppCompatActivity {
@@ -39,10 +44,12 @@ public class UserDashboard extends AppCompatActivity {
         TextView username = findViewById(R.id.username);
         TextView appointment = findViewById(R.id.appointment);
 
+        scheduleAlarm();
+
         // Start the Notification Service
         //Ensure the Service starts when your app launches.
-        Intent serviceIntent = new Intent(this, NotificationService.class);
-        startService(serviceIntent);
+        //Intent serviceIntent = new Intent(this, NotificationReceiver.class);
+        //startService(serviceIntent);
 
         //Code for log out
         signOut.setOnClickListener((v) -> {
@@ -84,6 +91,31 @@ public class UserDashboard extends AppCompatActivity {
             }
         });
     }
+
+    /*private void scheduleAlarm() {
+        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+        Intent intent = new Intent(this, NotificationReceiver.class);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        // Set the time for the alarm to trigger (e.g., 8:00 AM)
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(System.currentTimeMillis());
+        long triggerTime = calendar.getTimeInMillis();
+
+        // Set the repeating alarm to trigger at the specified time every day
+        long interval = System.currentTimeMillis() + 60000; // 24 hours
+        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, triggerTime, interval, pendingIntent);
+    }*/
+
+    private void scheduleAlarm() {
+        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+        Intent intent = new Intent(this, NotificationReceiver.class);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        long interval = 60 * 1000; // 1 minute in milliseconds
+        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, SystemClock.elapsedRealtime(), interval, pendingIntent);
+    }
+
 
     private void SignOut() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
