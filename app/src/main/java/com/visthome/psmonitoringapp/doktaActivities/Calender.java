@@ -149,19 +149,23 @@ public class Calender extends AppCompatActivity {
                 //textInput.setText("");
 
                 String gotDate = textInput.getText().toString();
-                int hour = timePicker.getHour();
+               int hour = timePicker.getHour();
                 int minute = timePicker.getMinute();
 
+                // Determine AM/PM period
                 String period = hour < 12 ? "AM" : "PM";
-                if (hour > 12) {
+                // Convert hour from 24-hour format to 12-hour format
+                /*if (hour > 12) {
                     hour -= 12;
                 } else if (hour == 0) {
                     hour = 12;
-                }
+                }*/
 
-                String hourString = String.valueOf(hour);
+                //String hourString = String.valueOf(hour);
+                String hourString = String.format("%02d", hour); // Zero-padded hour
                 String minuteString = String.format("%02d", minute);  // Zero-padded minute
 
+                // Concatenate hour, minute, and AM/PM
                 String gotTime = hourString + ":" + minuteString + " " + period;
 
                 /*String gotDate = textInput.getText().toString();

@@ -31,6 +31,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -56,6 +57,8 @@ public class Lists_of_patients extends AppCompatActivity {
     ProgressBar progressBar;
     TextView signOut;
 
+    private FirebaseAuth mAuth;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -76,6 +79,13 @@ public class Lists_of_patients extends AppCompatActivity {
 
         // Set the current date and time to the TextView
         time.setText(currentDateTime);
+
+        mAuth = FirebaseAuth.getInstance();
+
+        // Get the currently signed-in user
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+
+        String doktaEmail = currentUser.getEmail();
 
         scheduleAlarm();
 
@@ -115,7 +125,7 @@ public class Lists_of_patients extends AppCompatActivity {
                     }
                 });
 
-        retrieveAll();
+        retrieveAll(doktaEmail);
 
         addP.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -126,10 +136,11 @@ public class Lists_of_patients extends AppCompatActivity {
         });
     }
 
-    private void retrieveAll() {
+    private void retrieveAll(String currentDoktaEmail) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-        Query query = db.collection("Patients");
+        Query query = db.collection("Patients")
+                .whereEqualTo("doctorEmail", currentDoktaEmail);
 
         FirestoreRecyclerOptions<Patients> options = new FirestoreRecyclerOptions.Builder<Patients>()
                 .setQuery(query, Patients.class).build();
@@ -198,7 +209,7 @@ public class Lists_of_patients extends AppCompatActivity {
     private void scheduleAlarm() {
         AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         Intent intent = new Intent(this, NotificationReceiver.class);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_MUTABLE);
 
         long interval = 60 * 1000; // 1 minute in milliseconds
         alarmManager.setRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP, SystemClock.elapsedRealtime(), interval, pendingIntent);
