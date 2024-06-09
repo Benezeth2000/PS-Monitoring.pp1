@@ -89,6 +89,7 @@
                     android:textSize="@dimen/_18sdp" />
 
                 <TextView
+                    android:id="@+id/medicalReport"
                     android:layout_width="@dimen/_300sdp"
                     android:layout_gravity="center"
                     android:layout_height="@dimen/_80sdp"

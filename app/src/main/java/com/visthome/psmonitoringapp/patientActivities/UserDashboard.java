@@ -20,6 +20,7 @@ import android.widget.Toast;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -34,13 +35,14 @@ import java.util.Objects;
 
 public class UserDashboard extends AppCompatActivity {
 
-    TextView signOut;
+    TextView signOut, medicalReport;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_dashboard);
 
         signOut = findViewById(R.id.logOut);
+        medicalReport = findViewById(R.id.medicalReport);
         TextView username = findViewById(R.id.username);
         TextView appointment = findViewById(R.id.appointment);
 
@@ -54,6 +56,27 @@ public class UserDashboard extends AppCompatActivity {
         //Code for log out
         signOut.setOnClickListener((v) -> {
             SignOut();
+        });
+
+        medicalReport.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Get the current user from Firebase Authentication
+                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
+                if (user != null) {
+                    String uid = user.getUid();
+                    String email = user.getEmail();
+                    Intent intent = new Intent(UserDashboard.this, MedicalReport.class);
+                    intent.putExtra("USER_UID", uid);
+                    intent.putExtra("USER_EMAIL", email);
+                    startActivity(intent);
+                } else {
+                    // Handle the case where the user is not logged in
+                    Toast.makeText(UserDashboard.this, "User not logged in", Toast.LENGTH_SHORT).show();
+                }
+
+            }
         });
 
         FirebaseAuth mAuth = FirebaseAuth.getInstance();

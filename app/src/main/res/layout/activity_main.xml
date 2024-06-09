@@ -37,6 +37,7 @@
             android:drawableLeft="@drawable/emailone"
             android:drawablePadding="@dimen/_13sdp"
             android:hint="email"
+            android:textSize="@dimen/_12ssp"
             android:textColor="@color/black" />
 
         <EditText
@@ -49,6 +50,7 @@
             android:drawableLeft="@drawable/password"
             android:drawablePadding="@dimen/_13sdp"
             android:hint="password"
+            android:textSize="@dimen/_12ssp"
             android:textColor="@color/black" />
 
         <LinearLayout
