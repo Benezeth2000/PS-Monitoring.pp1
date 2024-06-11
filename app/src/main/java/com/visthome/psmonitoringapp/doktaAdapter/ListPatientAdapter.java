@@ -63,7 +63,10 @@ public class ListPatientAdapter extends FirestoreRecyclerAdapter<Patients, ListP
                 edit.putExtra("diseases", model.getDiseases());
                 edit.putExtra("pEmail", model.getPatientEmail());
                 edit.putExtra("pPass", model.getPatientPass());
+                edit.putExtra("customeDate", model.getCustomDate());
+                edit.putExtra("customeTime", model.getCustomTime());
                 edit.putExtra("medicalPdf", model.getMedicalPdf());
+                edit.putExtra("pUID", model.getPatientUid());
                 context.startActivity(edit);
             }
         });

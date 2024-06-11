@@ -10,9 +10,8 @@
         android:id="@+id/tool_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#45706F"
+        android:background="@color/blue"
         android:padding="@dimen/_10sdp">
-
 
         <TextView
             android:layout_width="wrap_content"
@@ -146,37 +145,6 @@
                     android:hint="Diseases"
                     android:textSize="@dimen/_14sdp" />
 
-                <EditText
-                    android:id="@+id/patientEmail"
-                    android:layout_width="@dimen/_250sdp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="@dimen/_10sdp"
-                    android:hint="patient email"
-                    android:textSize="@dimen/_14sdp" />
-
-                <EditText
-                    android:id="@+id/passwordUser"
-                    android:layout_width="@dimen/_250sdp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="@dimen/_10sdp"
-                    android:inputType="number"
-                    android:hint="password"
-                    android:textSize="@dimen/_14sdp" />
-
-                <TextView
-                    android:id="@+id/selectMedicalReport"
-                    android:layout_width="@dimen/_250sdp"
-                    android:layout_height="@dimen/_40sdp"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="@dimen/_10sdp"
-                    android:text="Select patient Medical Report"
-                    android:paddingTop="@dimen/_8sdp"
-                    android:paddingLeft="@dimen/_5sdp"
-                    android:paddingBottom="@dimen/_8sdp"
-                    android:textSize="@dimen/_14sdp" />
-
                 <Button
                     android:id="@+id/addPatient"
                     android:layout_width="@dimen/_250sdp"
@@ -184,6 +152,7 @@
                     android:layout_gravity="center"
                     android:layout_marginTop="@dimen/_10sdp"
                     android:text="Add"
+                    android:backgroundTint="@color/blue"
                     android:textAllCaps="false"
                     android:textSize="@dimen/_15sdp" />
 

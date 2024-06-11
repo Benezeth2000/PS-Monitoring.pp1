@@ -4,13 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/app_back"
     tools:context=".doktaActivities.Add_patient_in_my_list">
 
     <RelativeLayout
         android:id="@+id/tool_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#45706F"
+        android:background="@color/blue"
         android:padding="@dimen/_10sdp">
 
 
@@ -86,8 +87,10 @@
                 <EditText
                     android:id="@+id/firtName"
                     android:layout_width="@dimen/_250sdp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="@dimen/_40sdp"
+                    android:background="@drawable/custom_edit_text"
                     android:layout_gravity="center"
+                    android:paddingStart="@dimen/_8sdp"
                     android:layout_marginTop="@dimen/_10sdp"
                     android:hint="First name"
                     android:textSize="@dimen/_14sdp" />
@@ -95,8 +98,10 @@
                 <EditText
                     android:id="@+id/middleName"
                     android:layout_width="@dimen/_250sdp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="@dimen/_40sdp"
+                    android:background="@drawable/custom_edit_text"
                     android:layout_gravity="center"
+                    android:paddingStart="@dimen/_8sdp"
                     android:layout_marginTop="@dimen/_10sdp"
                     android:hint="Middle name"
                     android:textSize="@dimen/_14sdp" />
@@ -104,8 +109,10 @@
                 <EditText
                     android:id="@+id/lastName"
                     android:layout_width="@dimen/_250sdp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="@dimen/_40sdp"
+                    android:background="@drawable/custom_edit_text"
                     android:layout_gravity="center"
+                    android:paddingStart="@dimen/_8sdp"
                     android:layout_marginTop="@dimen/_10sdp"
                     android:hint="Last name"
                     android:textSize="@dimen/_14sdp" />
@@ -113,8 +120,10 @@
                 <EditText
                     android:id="@+id/address"
                     android:layout_width="@dimen/_250sdp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="@dimen/_40sdp"
+                    android:background="@drawable/custom_edit_text"
                     android:layout_gravity="center"
+                    android:paddingStart="@dimen/_8sdp"
                     android:layout_marginTop="@dimen/_10sdp"
                     android:hint="Address"
                     android:textSize="@dimen/_14sdp" />
@@ -122,8 +131,10 @@
                 <EditText
                     android:id="@+id/job"
                     android:layout_width="@dimen/_250sdp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="@dimen/_40sdp"
+                    android:background="@drawable/custom_edit_text"
                     android:layout_gravity="center"
+                    android:paddingStart="@dimen/_8sdp"
                     android:layout_marginTop="@dimen/_10sdp"
                     android:hint="Job"
                     android:textSize="@dimen/_14sdp" />
@@ -131,8 +142,10 @@
                 <EditText
                     android:id="@+id/phoneNo"
                     android:layout_width="@dimen/_250sdp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="@dimen/_40sdp"
+                    android:background="@drawable/custom_edit_text"
                     android:layout_gravity="center"
+                    android:paddingStart="@dimen/_8sdp"
                     android:layout_marginTop="@dimen/_10sdp"
                     android:hint="Phone number"
                     android:textSize="@dimen/_14sdp" />
@@ -140,8 +153,10 @@
                 <EditText
                     android:id="@+id/diseases"
                     android:layout_width="@dimen/_250sdp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="@dimen/_40sdp"
+                    android:background="@drawable/custom_edit_text"
                     android:layout_gravity="center"
+                    android:paddingStart="@dimen/_8sdp"
                     android:layout_marginTop="@dimen/_10sdp"
                     android:hint="Diseases"
                     android:textSize="@dimen/_14sdp" />
@@ -149,8 +164,10 @@
                 <EditText
                     android:id="@+id/patientEmail"
                     android:layout_width="@dimen/_250sdp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="@dimen/_40sdp"
+                    android:background="@drawable/custom_edit_text"
                     android:layout_gravity="center"
+                    android:paddingStart="@dimen/_8sdp"
                     android:layout_marginTop="@dimen/_10sdp"
                     android:hint="patient email"
                     android:textSize="@dimen/_14sdp" />
@@ -158,8 +175,10 @@
                 <EditText
                     android:id="@+id/passwordUser"
                     android:layout_width="@dimen/_250sdp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="@dimen/_40sdp"
+                    android:background="@drawable/custom_edit_text"
                     android:layout_gravity="center"
+                    android:paddingStart="@dimen/_8sdp"
                     android:layout_marginTop="@dimen/_10sdp"
                     android:inputType="number"
                     android:hint="password"
@@ -169,7 +188,9 @@
                     android:id="@+id/selectMedicalReport"
                     android:layout_width="@dimen/_250sdp"
                     android:layout_height="@dimen/_40sdp"
+                    android:background="@drawable/edit_text_rounded_corner"
                     android:layout_gravity="center"
+                    android:paddingStart="@dimen/_8sdp"
                     android:layout_marginTop="@dimen/_10sdp"
                     android:text="Select patient Medical Report"
                     android:paddingTop="@dimen/_8sdp"
@@ -180,10 +201,11 @@
                 <Button
                     android:id="@+id/addPatient"
                     android:layout_width="@dimen/_250sdp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="@dimen/_50sdp"
                     android:layout_gravity="center"
                     android:layout_marginTop="@dimen/_10sdp"
                     android:text="Add"
+                    android:backgroundTint="@color/blue"
                     android:textAllCaps="false"
                     android:textSize="@dimen/_15sdp" />
 

@@ -11,10 +11,9 @@
     <RelativeLayout
         android:id="@+id/tool_bar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="#45706F"
+        android:layout_height="@dimen/_50sdp"
+        android:background="@color/blue"
         android:padding="@dimen/_10sdp">
-
 
         <TextView
             android:layout_width="wrap_content"
@@ -28,17 +27,36 @@
 
     </RelativeLayout>
 
-    <TextView
-        android:id="@+id/name"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/_50sdp"
-        android:background="@drawable/edit_text_rounded_corner"
-        android:hint="name"
-        android:textSize="@dimen/_16ssp"
-        android:layout_marginTop="@dimen/_10sdp"
-        android:layout_gravity="center"
-        android:textColor="@color/black"
-        android:gravity="center"/>
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/_10sdp">
+
+        <TextView
+            android:id="@+id/fullname"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/edit_text_rounded_corner"
+            android:hint="name"
+            android:textSize="@dimen/_16ssp"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:textColor="@color/black" />
+
+        <TextView
+            android:id="@+id/name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/edit_text_rounded_corner"
+            android:hint="name"
+            android:layout_marginEnd="@dimen/_20sdp"
+            android:layout_alignParentEnd="true"
+            android:textSize="@dimen/_16ssp"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:textColor="@color/black" />
+
+    </RelativeLayout>
+
+
 
     <TextView
         android:id="@+id/concerns"

@@ -90,11 +90,12 @@
 
         <Button
             android:id="@+id/ingiaLogIn"
-            android:background="@drawable/rounded"
             android:layout_width="@dimen/_250sdp"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/_50sdp"
             android:layout_marginTop="@dimen/_5sdp"
-            android:text="signIn"
+            android:text="Sign In"
+            android:textSize="@dimen/_14ssp"
+            android:backgroundTint="@color/blue"
             android:textAllCaps="false"
             android:layout_gravity="center"
             android:textStyle="bold" />

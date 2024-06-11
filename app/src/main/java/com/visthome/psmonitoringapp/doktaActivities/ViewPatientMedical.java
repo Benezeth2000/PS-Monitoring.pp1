@@ -3,6 +3,7 @@ package com.visthome.psmonitoringapp.doktaActivities;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
@@ -22,8 +23,8 @@ TextView name, medical, concerns;
         setContentView(R.layout.activity_view_patient_medical);
 
         name = findViewById(R.id.name);
-        medical = findViewById(R.id.concerns);
-        concerns = findViewById(R.id.viewMedical);
+        medical = findViewById(R.id.viewMedical);
+        concerns = findViewById(R.id.concerns);
 
         Intent intent = getIntent();
         String fName = intent.getStringExtra("fname");
@@ -33,7 +34,14 @@ TextView name, medical, concerns;
 
         name.setText(fName + " " + lName);
         concerns.setText(diseases);
-        medical.setText(medicalPdf);
+        //medical.setText(medicalPdf);
+
+        medical.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
 
     }
 }
