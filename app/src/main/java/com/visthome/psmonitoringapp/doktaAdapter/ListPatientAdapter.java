@@ -46,6 +46,7 @@ public class ListPatientAdapter extends FirestoreRecyclerAdapter<Patients, ListP
                 viewMore.putExtra("fname", model.getFirstName());
                 viewMore.putExtra("diseases", model.getDiseases());
                 viewMore.putExtra("medicalPdf", model.getMedicalPdf());
+                viewMore.putExtra("USER_UID", model.getPatientUid());
                 context.startActivity(viewMore);
             }
         });

@@ -31,6 +31,7 @@ TextView name, medical, concerns;
         String lName = intent.getStringExtra("name");
         String diseases = intent.getStringExtra("diseases");
         String medicalPdf = intent.getStringExtra("medicalPdf");
+        String USER_UID = intent.getStringExtra("USER_UID");
 
         name.setText(fName + " " + lName);
         concerns.setText(diseases);
@@ -39,7 +40,8 @@ TextView name, medical, concerns;
         medical.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent viewMore = new Intent(ViewPatientMedical.this, ViewReport.class);
+                viewMore.putExtra("USER_UID", USER_UID);
             }
         });
 
