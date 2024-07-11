@@ -132,7 +132,7 @@ public class CalendaerEdit extends AppCompatActivity {
                 intent.putExtra("phoneNo", phoneNo);
                 intent.putExtra("diseases", Diseases);
                 intent.putExtra("customeDate", customeDate);
-                intent.putExtra("customeTime", customeTime);
+                intent.putExtra("customeEditTime", customeTime);
                 intent.putExtra("medicalPdf", medicalPdf);
                 intent.putExtra("pUID", pUID);
                 startActivity(intent);

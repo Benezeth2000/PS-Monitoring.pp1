@@ -4,10 +4,13 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CalendarView;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -33,12 +36,17 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.orhanobut.dialogplus.DialogPlus;
+import com.orhanobut.dialogplus.ViewHolder;
 import com.visthome.psmonitoringapp.R;
 import com.visthome.psmonitoringapp.entity.AllUsers;
 import com.visthome.psmonitoringapp.entity.Patients;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
 
@@ -46,6 +54,7 @@ public class Add_patient_in_my_list extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private FirebaseStorage storage;
     private FirebaseFirestore firestore;
+    ;
     private Uri pdfUri;
     private static final int PICK_PDF_FILE = 2;
     private TextView pdfUrlTextView;
@@ -93,14 +102,83 @@ public class Add_patient_in_my_list extends AppCompatActivity {
         selectDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                /*DialogPlus dialogPlus = DialogPlus.newDialog(Add_patient_in_my_list.this)
-                        .setContentHolder(new ViewHolder(R.layout.calender_cell))
+                DialogPlus dialogPlus = DialogPlus.newDialog(Add_patient_in_my_list.this)
+                        .setContentHolder(new ViewHolder(R.layout.calendar_layout))
                         .setExpanded(true, 550)
                         .create();
-                dialogPlus.show();*/
+                dialogPlus.show();
 
-                Intent intent = new Intent(Add_patient_in_my_list.this, Calender.class);
-                startActivity(intent);
+                CalendarView calendarView = findViewById(R.id.calendarView);
+                final TextView textInput = findViewById(R.id.selectedYear);
+                TimePicker timePicker = findViewById(R.id.timePicker);
+                final Button save = findViewById(R.id.save);
+                final View dayContent = findViewById(R.id.dayContent);
+                calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
+                    @Override
+                    public void onSelectedDayChange(@NonNull CalendarView view, int year, int month, int dayOfMonth) {
+                        int currentMonth = month + 1;
+
+                        String dayOfToday = year + "/" + currentMonth + "/" + dayOfMonth;
+
+                        SimpleDateFormat inputFormat = new SimpleDateFormat("yyyy/MM/dd", Locale.getDefault());
+                        Date date = null;
+                        try {
+                            date = inputFormat.parse(dayOfToday);
+                        } catch (ParseException e) {
+                            e.printStackTrace();
+                        }
+
+                        SimpleDateFormat dateFormat = new SimpleDateFormat("MMM dd, yyyy", Locale.getDefault());
+                        String formattedDate = dateFormat.format(date);
+                        textInput.setText(formattedDate);
+
+                        if (dayContent.getVisibility()==view.GONE){
+                            dayContent.setVisibility(View.VISIBLE);
+                        }
+
+                    }
+                });
+
+                save.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        //
+                        // calendarStrings.add(String.valueOf(calendarView.getDate()));
+                        // calendarStrings.add(textInput.getText().toString());
+                        //textInput.setText("");
+
+                        String gotDate = textInput.getText().toString();
+                        int hour = timePicker.getHour();
+                        int minute = timePicker.getMinute();
+
+                        // Determine AM/PM period
+                        String period = hour < 12 ? "AM" : "PM";
+                        // Convert hour from 24-hour format to 12-hour format
+                /*if (hour > 12) {
+                    hour -= 12;
+                } else if (hour == 0) {
+                    hour = 12;
+                }*/
+
+                        //String hourString = String.valueOf(hour);
+                        String hourString = String.format("%02d", hour); // Zero-padded hour
+                        String minuteString = String.format("%02d", minute);  // Zero-padded minute
+
+                        // Concatenate hour, minute, and AM/PM
+                        String gotTime = hourString + ":" + minuteString + " " + period;
+
+                /*String gotDate = textInput.getText().toString();
+                String gotTime = timeSpinner.getSelectedItem().toString();*/
+
+                        Intent intent = new Intent(Add_patient_in_my_list.this, Add_patient_in_my_list.class);
+                        intent.putExtra("customDate", gotDate);
+                        intent.putExtra("gotTime", gotTime);
+                        startActivity(intent);
+                    }
+                });
+
+                /*Intent intent = new Intent(Add_patient_in_my_list.this, Calender.class);
+                startActivity(intent);*/
             }
         });
 
@@ -168,6 +246,12 @@ public class Add_patient_in_my_list extends AppCompatActivity {
                     return;
                 }
 
+                if (!isValidPhoneNumber(phoneNo)) {
+                    phoNo.setError("Phone number must start with 06 or 07");
+                    phoNo.requestFocus();
+                    return;
+                }
+
                 if (dises.isEmpty()) {
                     diseases.setError("Enter diseases");
                     diseases.requestFocus();
@@ -175,7 +259,13 @@ public class Add_patient_in_my_list extends AppCompatActivity {
                 }
 
                 if (email.isEmpty()) {
-                    patientEmail.setError("Enter diseases");
+                    patientEmail.setError("Enter email");
+                    patientEmail.requestFocus();
+                    return;
+                }
+
+                if (!isValidEmail(email)) {
+                    patientEmail.setError("Enter a valid email");
                     patientEmail.requestFocus();
                     return;
                 }
@@ -230,7 +320,9 @@ public class Add_patient_in_my_list extends AppCompatActivity {
                                                         pdfRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                                                             @Override
                                                             public void onSuccess(Uri downloadUrl) {
-                                                                Patients createPatient = new Patients(userId, doctorName, doctorUid, doctorEmail, uploadId, Fname, Mname, Lname, addr, work, phoneNo, dises, currentTime, email, pass, currentDate, timeTomeet, Time, downloadUrl.toString());
+                                                                String patientProfile = "";
+
+                                                                Patients createPatient = new Patients(userId, doctorName, doctorUid, doctorEmail, uploadId, Fname, Mname, Lname, addr, work, phoneNo, dises, currentTime, email, pass, currentDate, timeTomeet, Time, downloadUrl.toString(), patientProfile);
 
                                                                 String role = "patient";
 
@@ -324,6 +416,13 @@ public class Add_patient_in_my_list extends AppCompatActivity {
                 pdfUrlTextView.setText(pdfUri.toString());
             }
         }
+    }
+
+    private boolean isValidPhoneNumber(String phoneNumber) {
+        return phoneNumber.startsWith("06") || phoneNumber.startsWith("07");
+    }
+    boolean isValidEmail(String email) {
+        return Patterns.EMAIL_ADDRESS.matcher(email).matches();
     }
 
 }

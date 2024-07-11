@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:layout_width="@dimen/_300sdp"
+        android:layout_height="wrap_content"
+        android:text="Phone Number"
+        android:textSize="@dimen/_14sdp"
+        android:textColor="@color/black"
+        android:textColorHint="@color/black"
+        android:gravity="center"
+        android:paddingTop="@dimen/_10sdp"/>
+
+    <EditText
+        android:layout_marginTop="8dp"
+        android:textStyle="bold"
+        android:textColor="@color/black"
+        android:textColorHint="@color/black"
+        android:id="@+id/phoneChange"
+        android:layout_width="@dimen/_300sdp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center" />
+
+    <Button
+        android:id="@+id/savePhone"
+        android:layout_width="@dimen/_300sdp"
+        android:layout_height="@dimen/_50sdp"
+        android:text="Update"
+        android:textAllCaps="false"
+        android:layout_marginTop="8dp"
+        android:layout_gravity="center"/>
+
+</LinearLayout>

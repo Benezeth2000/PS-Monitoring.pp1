@@ -14,9 +14,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -25,6 +29,7 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.auth.User;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.visthome.psmonitoringapp.R;
 import com.visthome.psmonitoringapp.entity.Patients;
@@ -36,6 +41,8 @@ import java.util.Objects;
 public class UserDashboard extends AppCompatActivity {
 
     TextView signOut, medicalReport;
+    ImageView image;
+    LinearLayout settings, home;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,6 +50,9 @@ public class UserDashboard extends AppCompatActivity {
 
         signOut = findViewById(R.id.logOut);
         medicalReport = findViewById(R.id.medicalReport);
+        image = findViewById(R.id.image);
+        settings = findViewById(R.id.settings);
+        home = findViewById(R.id.home);
         TextView username = findViewById(R.id.username);
         TextView appointment = findViewById(R.id.appointment);
 
@@ -56,6 +66,22 @@ public class UserDashboard extends AppCompatActivity {
         //Code for log out
         signOut.setOnClickListener((v) -> {
             SignOut();
+        });
+
+        home.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(UserDashboard.this, UserDashboard.class);
+                startActivity(intent);
+            }
+        });
+
+        settings.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(UserDashboard.this, PatientProfile.class);
+                startActivity(intent);
+            }
         });
 
         medicalReport.setOnClickListener(new View.OnClickListener() {
@@ -98,6 +124,21 @@ public class UserDashboard extends AppCompatActivity {
                             Patients currentPatient = snapshot.toObject(Patients.class);
                             if (currentPatient != null) {
                                 username.setText(currentPatient.getLastName());
+
+                                String imageUrl = currentPatient.getPatientProfile();
+
+                                if (imageUrl != null && !imageUrl.isEmpty()) {
+                                    Glide.with(UserDashboard.this)
+                                            .load(imageUrl)
+                                            .apply(RequestOptions.circleCropTransform())
+                                            .into(image);
+                                } else {
+                                    // Load default drawable image
+                                    Glide.with(UserDashboard.this)
+                                            .load(R.drawable.profilep) // Replace with your default image resource
+                                            .apply(RequestOptions.circleCropTransform())
+                                            .into(image);
+                                }
                             }
                         } else {
                             // Document doesn't exist

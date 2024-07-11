@@ -1,13 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".doktaActivities.Calender">
+    android:layout_height="match_parent">
 
-   <!--<TextView
+    <!--<TextView
         android:id="@+id/selectedDay"
         android:gravity="center"
         android:textColor="@color/black"
@@ -37,59 +34,59 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-    <CalendarView
-        android:id="@+id/calendarView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/_20sdp" />
-
-    <LinearLayout
-        android:id="@+id/dayContent"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:visibility="gone">
-
-        <!--<LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="@dimen/_100sdp"
+            <CalendarView
+                android:id="@+id/calendarView"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/_15sdp"
-                android:layout_weight="1"
-                android:text="Schedule Time"
-                android:textSize="@dimen/_14ssp" />
+                android:layout_marginTop="@dimen/_20sdp" />
 
-            <Spinner
-                android:id="@+id/selectedTime"
-                android:layout_width="@dimen/_150sdp"
+            <LinearLayout
+                android:id="@+id/dayContent"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:entries="@array/times"
-                android:textColor="#2B8C2F" />
+                android:orientation="vertical"
+                android:visibility="gone">
 
-        </LinearLayout>-->
+                <!--<LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:orientation="horizontal">
 
-        <TimePicker
-            android:id="@+id/timePicker"
-            android:timePickerMode="clock"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            />
+                    <TextView
+                        android:layout_width="@dimen/_100sdp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_15sdp"
+                        android:layout_weight="1"
+                        android:text="Schedule Time"
+                        android:textSize="@dimen/_14ssp" />
 
-        <Button
-            android:id="@+id/save"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="Save"
-            android:textAllCaps="false" />
+                    <Spinner
+                        android:id="@+id/selectedTime"
+                        android:layout_width="@dimen/_150sdp"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:entries="@array/times"
+                        android:textColor="#2B8C2F" />
 
-    </LinearLayout>
+                </LinearLayout>-->
+
+                <TimePicker
+                    android:id="@+id/timePicker"
+                    android:timePickerMode="clock"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    />
+
+                <Button
+                    android:id="@+id/save"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="Save"
+                    android:textAllCaps="false" />
+
+            </LinearLayout>
 
         </LinearLayout>
 
@@ -112,7 +109,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
-            
+
             <DatePicker
                 android:id="@+id/datePicker"
                 android:layout_width="match_parent"
@@ -124,7 +121,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:visibility="gone"/>
-            
+
             <Button
                 android:id="@+id/setAlarmButton"
                 android:layout_width="match_parent"
@@ -137,6 +134,5 @@
 
         </LinearLayout>
     </ScrollView>-->
-
 
 </LinearLayout>

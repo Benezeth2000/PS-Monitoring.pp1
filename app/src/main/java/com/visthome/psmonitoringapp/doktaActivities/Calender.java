@@ -149,7 +149,7 @@ public class Calender extends AppCompatActivity {
                 //textInput.setText("");
 
                 String gotDate = textInput.getText().toString();
-               int hour = timePicker.getHour();
+                int hour = timePicker.getHour();
                 int minute = timePicker.getMinute();
 
                 // Determine AM/PM period

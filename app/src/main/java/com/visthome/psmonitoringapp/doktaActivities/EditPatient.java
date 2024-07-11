@@ -6,11 +6,14 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CalendarView;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
@@ -21,9 +24,15 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
+import com.orhanobut.dialogplus.DialogPlus;
+import com.orhanobut.dialogplus.ViewHolder;
 import com.visthome.psmonitoringapp.R;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 public class EditPatient extends AppCompatActivity {
@@ -49,7 +58,7 @@ public class EditPatient extends AppCompatActivity {
         TextView scheduled = findViewById(R.id.scheduled);
         TextView time = findViewById(R.id.time);
         Button add = findViewById(R.id.addPatient);
-        pdfUrlTextView = findViewById(R.id.selectMedicalReport);
+        //pdfUrlTextView = findViewById(R.id.selectMedicalReport);
 
 
         Intent intent = getIntent();
@@ -65,6 +74,7 @@ public class EditPatient extends AppCompatActivity {
         String pPass = intent.getStringExtra("pPass");
         String customeDate = intent.getStringExtra("customeDate");
         String customeTime = intent.getStringExtra("customeTime");
+        String customeEditTime = intent.getStringExtra("customeEditTime");
         String medicalPdf = intent.getStringExtra("medicalPdf");
         String pUID = intent.getStringExtra("pUID");
 
@@ -77,13 +87,87 @@ public class EditPatient extends AppCompatActivity {
         diseases.setText(Diseases);
         //patientEmail.setText(pEmail);
         //patientPass.setText(pPass);
-        scheduled.setText(customeDate);
-        time.setText(customeTime);
+        scheduled.setText(customeDate + " " + customeTime);
+        time.setText(customeEditTime);
 
         selectDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(EditPatient.this, CalendaerEdit.class);
+                DialogPlus dialogPlus = DialogPlus.newDialog(EditPatient.this)
+                        .setContentHolder(new ViewHolder(R.layout.calendar_layout))
+                        .setExpanded(true, 550)
+                        .create();
+                dialogPlus.show();
+
+                CalendarView calendarView = findViewById(R.id.calendarView);
+                final TextView textInput = findViewById(R.id.selectedYear);
+                TimePicker timePicker = findViewById(R.id.timePicker);
+                final Button save = findViewById(R.id.save);
+                final View dayContent = findViewById(R.id.dayContent);
+                calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
+                    @Override
+                    public void onSelectedDayChange(@NonNull CalendarView view, int year, int month, int dayOfMonth) {
+                        int currentMonth = month + 1;
+
+                        String dayOfToday = year + "/" + currentMonth + "/" + dayOfMonth;
+
+                        SimpleDateFormat inputFormat = new SimpleDateFormat("yyyy/MM/dd", Locale.getDefault());
+                        Date date = null;
+                        try {
+                            date = inputFormat.parse(dayOfToday);
+                        } catch (ParseException e) {
+                            e.printStackTrace();
+                        }
+
+                        SimpleDateFormat dateFormat = new SimpleDateFormat("MMM dd, yyyy", Locale.getDefault());
+                        String formattedDate = dateFormat.format(date);
+                        textInput.setText(formattedDate);
+
+                        if (dayContent.getVisibility()==view.GONE){
+                            dayContent.setVisibility(View.VISIBLE);
+                        }
+
+                    }
+                });
+
+                save.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        //
+                        // calendarStrings.add(String.valueOf(calendarView.getDate()));
+                        // calendarStrings.add(textInput.getText().toString());
+                        //textInput.setText("");
+
+                        String gotDate = textInput.getText().toString();
+                        int hour = timePicker.getHour();
+                        int minute = timePicker.getMinute();
+
+                        // Determine AM/PM period
+                        String period = hour < 12 ? "AM" : "PM";
+                        // Convert hour from 24-hour format to 12-hour format
+                /*if (hour > 12) {
+                    hour -= 12;
+                } else if (hour == 0) {
+                    hour = 12;
+                }*/
+
+                        //String hourString = String.valueOf(hour);
+                        String hourString = String.format("%02d", hour); // Zero-padded hour
+                        String minuteString = String.format("%02d", minute);  // Zero-padded minute
+
+                        // Concatenate hour, minute, and AM/PM
+                        String gotTime = hourString + ":" + minuteString + " " + period;
+
+                /*String gotDate = textInput.getText().toString();
+                String gotTime = timeSpinner.getSelectedItem().toString();*/
+
+                        Intent intent = new Intent(EditPatient.this, Add_patient_in_my_list.class);
+                        intent.putExtra("customeDate", gotDate);
+                        intent.putExtra("customeTime", gotTime);
+                        startActivity(intent);
+                    }
+                });
+                /*Intent intent = new Intent(EditPatient.this, CalendaerEdit.class);
                 intent.putExtra("fname", fname);
                 intent.putExtra("mname", mname);
                 intent.putExtra("lname", lname);
@@ -95,7 +179,7 @@ public class EditPatient extends AppCompatActivity {
                 intent.putExtra("customeTime", customeTime);
                 intent.putExtra("medicalPdf", medicalPdf);
                 intent.putExtra("pUID", pUID);
-                startActivity(intent);
+                startActivity(intent);*/
             }
         });
 

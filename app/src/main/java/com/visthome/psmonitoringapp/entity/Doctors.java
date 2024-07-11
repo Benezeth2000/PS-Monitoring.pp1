@@ -6,17 +6,19 @@ public class Doctors {
     String email;
     String Password;
     String doctorUid;
+    String userProfile;
     String token;
 
     public Doctors() {
     }
 
-    public Doctors(String doctorName, String phoneNo, String email, String password, String doctorUid, String token) {
+    public Doctors(String doctorName, String phoneNo, String email, String password, String doctorUid, String userProfile, String token) {
         DoctorName = doctorName;
         PhoneNo = phoneNo;
         this.email = email;
         Password = password;
         this.doctorUid = doctorUid;
+        this.userProfile = userProfile;
         this.token = token;
     }
 
@@ -66,5 +68,13 @@ public class Doctors {
 
     public void setToken(String token) {
         this.token = token;
+    }
+
+    public String getUserProfile() {
+        return userProfile;
+    }
+
+    public void setUserProfile(String userProfile) {
+        this.userProfile = userProfile;
     }
 }

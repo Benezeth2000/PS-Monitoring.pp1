@@ -19,6 +19,9 @@
         android:theme="@style/Theme.PSMonitoringApp"
         tools:targetApi="31">
         <activity
+            android:name=".patientActivities.PatientProfile"
+            android:exported="false" />
+        <activity
             android:name=".doktaActivities.ViewReport"
             android:exported="false" />
         <activity

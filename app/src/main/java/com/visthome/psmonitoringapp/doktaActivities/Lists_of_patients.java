@@ -11,6 +11,7 @@ import android.os.Handler;
 import android.os.SystemClock;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -26,6 +27,8 @@ import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -43,6 +46,7 @@ import com.visthome.psmonitoringapp.doktaAdapter.ListPatientAdapter;
 import com.visthome.psmonitoringapp.entity.Doctors;
 import com.visthome.psmonitoringapp.entity.Patients;
 import com.visthome.psmonitoringapp.patientActivities.MainActivity;
+import com.visthome.psmonitoringapp.patientActivities.UserDashboard;
 import com.visthome.psmonitoringapp.service.NotificationReceiver;
 
 import java.text.SimpleDateFormat;
@@ -56,6 +60,8 @@ public class Lists_of_patients extends AppCompatActivity {
     RecyclerView recyclerView;
     ProgressBar progressBar;
     TextView signOut;
+    LinearLayout home, settings;
+    ImageView image;
 
     private FirebaseAuth mAuth;
 
@@ -70,6 +76,9 @@ public class Lists_of_patients extends AppCompatActivity {
         signOut = findViewById(R.id.logOut);
         TextView username = findViewById(R.id.username);
         TextView time = findViewById(R.id.time);
+        home = findViewById(R.id.home);
+        settings = findViewById(R.id.settings);
+        image = findViewById(R.id.image);
 
         // Get the current date and time
         //String currentDateTime = getCurrentDateTime();
@@ -89,6 +98,21 @@ public class Lists_of_patients extends AppCompatActivity {
 
         scheduleAlarm();
 
+        home.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Lists_of_patients.this, Lists_of_patients.class);
+                startActivity(intent);
+            }
+        });
+
+        settings.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Lists_of_patients.this, Doctor_profile.class);
+                startActivity(intent);
+            }
+        });
         // Start the Notification Service
         //Ensure the Service starts when your app launches.
        // Intent serviceIntent = new Intent(this, NotificationService.class);
@@ -118,6 +142,21 @@ public class Lists_of_patients extends AppCompatActivity {
                             Doctors currentDoctor = snapshot.toObject(Doctors.class);
                             if (currentDoctor != null) {
                                 username.setText(currentDoctor.getDoctorName());
+
+                                String imageUrl = currentDoctor.getUserProfile();
+
+                                if (imageUrl != null && !imageUrl.isEmpty()) {
+                                    Glide.with(Lists_of_patients.this)
+                                            .load(imageUrl)
+                                            .apply(RequestOptions.circleCropTransform())
+                                            .into(image);
+                                } else {
+                                    // Load default drawable image
+                                    Glide.with(Lists_of_patients.this)
+                                            .load(R.drawable.profilep) // Replace with your default image resource
+                                            .apply(RequestOptions.circleCropTransform())
+                                            .into(image);
+                                }
                             }
                         } else {
                             // Document doesn't exist

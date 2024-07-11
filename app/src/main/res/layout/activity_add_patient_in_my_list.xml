@@ -148,6 +148,7 @@
                     android:paddingStart="@dimen/_8sdp"
                     android:layout_marginTop="@dimen/_10sdp"
                     android:hint="Phone number"
+                    android:inputType="number"
                     android:textSize="@dimen/_14sdp" />
 
                 <EditText

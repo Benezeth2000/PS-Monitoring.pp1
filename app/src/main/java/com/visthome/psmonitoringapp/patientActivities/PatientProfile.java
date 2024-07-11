@@ -1,4 +1,4 @@
-package com.visthome.psmonitoringapp.doktaActivities;
+package com.visthome.psmonitoringapp.patientActivities;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
@@ -27,8 +27,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
@@ -51,6 +49,8 @@ import com.makeramen.roundedimageview.RoundedImageView;
 import com.orhanobut.dialogplus.DialogPlus;
 import com.orhanobut.dialogplus.ViewHolder;
 import com.visthome.psmonitoringapp.R;
+import com.visthome.psmonitoringapp.doktaActivities.Doctor_profile;
+import com.visthome.psmonitoringapp.doktaActivities.Lists_of_patients;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -59,17 +59,16 @@ import java.util.Objects;
 import kotlin.Unit;
 import kotlin.jvm.functions.Function1;
 
-public class Doctor_profile extends AppCompatActivity {
+public class PatientProfile extends AppCompatActivity {
     LinearLayout home, settings;
     RoundedImageView profile;
     ActivityResultLauncher<Intent> imagePickerLauncher;
     Uri selectedImageUri;
     private FirebaseAuth mAuth;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_doctor_profile);
+        setContentView(R.layout.activity_patient_profile);
 
         TextView changeEmail = findViewById(R.id.changeEmail);
         TextView changePhoneNo = findViewById(R.id.changePhoneNo);
@@ -83,14 +82,14 @@ public class Doctor_profile extends AppCompatActivity {
         String currentUserId = Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid();
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        DocumentReference documentReference = db.collection("Doctors").document(currentUserId);
+        DocumentReference documentReference = db.collection("Patients").document(currentUserId);
 
         documentReference.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
                 if (documentSnapshot.exists()) {
-                    if (documentSnapshot.contains("userProfile")) {
-                        String imageUri = documentSnapshot.getString("userProfile");
+                    if (documentSnapshot.contains("patientProfile")) {
+                        String imageUri = documentSnapshot.getString("patientProfile");
 
                         // Call a method to load the image into ImageView
                         loadImageIntoImageView(imageUri);
@@ -114,7 +113,7 @@ public class Doctor_profile extends AppCompatActivity {
                             // Get the selected image URI
                             selectedImageUri = result.getData().getData();
 
-                            Glide.with(Doctor_profile.this)
+                            Glide.with(PatientProfile.this)
                                     .load(selectedImageUri)
                                     .apply(RequestOptions.circleCropTransform())
                                     .into(profile);
@@ -132,20 +131,20 @@ public class Doctor_profile extends AppCompatActivity {
         home.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               Intent intent = new Intent(Doctor_profile.this, Lists_of_patients.class);
-               startActivity(intent);
+                Intent intent = new Intent(PatientProfile.this, PatientProfile.class);
+                startActivity(intent);
             }
         });
 
         settings.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(Doctor_profile.this, Doctor_profile.class);
+                Intent intent = new Intent(PatientProfile.this, PatientProfile.class);
                 startActivity(intent);
             }
         });
 
-        profile.setOnClickListener(view -> ImagePicker.with(Doctor_profile.this).cropSquare().compress(512).maxResultSize(512, 512)
+        profile.setOnClickListener(view -> ImagePicker.with(PatientProfile.this).cropSquare().compress(512).maxResultSize(512, 512)
                 .createIntent(new Function1<Intent, Unit>() {
                     @Override
                     public Unit invoke(Intent intent) {
@@ -158,7 +157,7 @@ public class Doctor_profile extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                AlertDialog.Builder builder = new AlertDialog.Builder(Doctor_profile.this);
+                AlertDialog.Builder builder = new AlertDialog.Builder(PatientProfile.this);
                 View dialogView = getLayoutInflater().inflate(R.layout.dialog_forgot_password, null);
                 EditText emailBox = dialogView.findViewById(R.id.emailBox);
                 builder.setView(dialogView);
@@ -166,24 +165,24 @@ public class Doctor_profile extends AppCompatActivity {
                 dialogView.findViewById(R.id.btnReset).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        ProgressDialog dialog = new ProgressDialog(Doctor_profile.this);
+                        ProgressDialog dialog = new ProgressDialog(PatientProfile.this);
                         dialog.setMessage("Please wait...");
                         dialog.show();
 
                         String userEmail = emailBox.getText().toString();
                         if (TextUtils.isEmpty(userEmail) && !Patterns.EMAIL_ADDRESS.matcher(userEmail).matches()){
-                            Toast.makeText(Doctor_profile.this, "Enter your registered email", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(PatientProfile.this, "Enter your registered email", Toast.LENGTH_SHORT).show();
                             return;
                         }
                         mAuth.sendPasswordResetEmail(userEmail).addOnCompleteListener(new OnCompleteListener<Void>() {
                             @Override
                             public void onComplete(@NonNull Task<Void> task) {
                                 if (task.isSuccessful()){
-                                    Toast.makeText(Doctor_profile.this, "Check your email", Toast.LENGTH_LONG).show();
+                                    Toast.makeText(PatientProfile.this, "Check your email", Toast.LENGTH_LONG).show();
                                     //errorLogIn.setText("Check your email inbox for password reset link");
                                     dialog.dismiss();
                                 } else {
-                                    Toast.makeText(Doctor_profile.this, "Unable to send, failed", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(PatientProfile.this, "Unable to send, failed", Toast.LENGTH_SHORT).show();
                                 }
                             }
                         });
@@ -206,7 +205,7 @@ public class Doctor_profile extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                DialogPlus dialogPlus = DialogPlus.newDialog(Doctor_profile.this)
+                DialogPlus dialogPlus = DialogPlus.newDialog(PatientProfile.this)
                         .setContentHolder(new ViewHolder(R.layout.change_phone_number))
                         .setExpanded(true)
                         .create();
@@ -223,7 +222,7 @@ public class Doctor_profile extends AppCompatActivity {
 
                 // Create a DatabaseReference to point to the "Users" collection and the specific user's node using the UID
                 // Define Firestore DocumentReference for the current user
-                DocumentReference currentUserReference = db.collection("Doctors").document(currentUserId);
+                DocumentReference currentUserReference = db.collection("Patients").document(currentUserId);
 
                 currentUserReference.addSnapshotListener(new EventListener<DocumentSnapshot>() {
                     @Override
@@ -257,7 +256,7 @@ public class Doctor_profile extends AppCompatActivity {
                     @Override
                     public void onClick(View view) {
 
-                        ProgressDialog dialog = new ProgressDialog(Doctor_profile.this);
+                        ProgressDialog dialog = new ProgressDialog(PatientProfile.this);
                         dialog.setMessage("Please wait...");
                         dialog.show();
 
@@ -277,19 +276,19 @@ public class Doctor_profile extends AppCompatActivity {
 
                         // Save the new data to the "users" collection
                         // Update the values in the database
-                        DocumentReference userRef = db.collection("Doctors").document(currentUserId);
+                        DocumentReference userRef = db.collection("Patients").document(currentUserId);
                         userRef.update(map)
                                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                                     @Override
                                     public void onSuccess(Void unused) {
-                                        Toast.makeText(Doctor_profile.this, "Update Successfully", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(PatientProfile.this, "Update Successfully", Toast.LENGTH_SHORT).show();
                                         dialog.dismiss();
                                     }
                                 })
                                 .addOnFailureListener(new OnFailureListener() {
                                     @Override
                                     public void onFailure(@NonNull Exception e) {
-                                        Toast.makeText(Doctor_profile.this, "Update Unsuccessfully", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(PatientProfile.this, "Update Unsuccessfully", Toast.LENGTH_SHORT).show();
                                         dialog.dismiss();
                                     }
                                 });
@@ -302,7 +301,7 @@ public class Doctor_profile extends AppCompatActivity {
     }
 
     private void sendImageToDatabase(Uri selectedImageUri) {
-        ProgressDialog dialog = new ProgressDialog(Doctor_profile.this);
+        ProgressDialog dialog = new ProgressDialog(PatientProfile.this);
         dialog.setMessage("Please wait...");
         dialog.show();
 
@@ -310,14 +309,14 @@ public class Doctor_profile extends AppCompatActivity {
         String currentUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        DocumentReference documentRef = db.collection("Doctors").document(currentUserId);
+        DocumentReference documentRef = db.collection("Patients").document(currentUserId);
 
         // Check if there's an image selected
         if (selectedImageUri != null && !selectedImageUri.toString().isEmpty()) {
 
             // Get reference to Firebase Storage
             FirebaseStorage storage = FirebaseStorage.getInstance();
-            StorageReference storageRef = storage.getReference("userProfile");
+            StorageReference storageRef = storage.getReference("patientProfile");
 
             // Create a reference to the image in Firebase Storage
             StorageReference fileRef = storageRef.child(System.currentTimeMillis() + "." + getFileExtension(selectedImageUri));
@@ -332,11 +331,11 @@ public class Doctor_profile extends AppCompatActivity {
                         public void onSuccess(Uri uri) {
                             // Update the image URL in Firestore
                             documentRef
-                                    .update("userProfile", uri.toString()).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                    .update("patientProfile", uri.toString()).addOnSuccessListener(new OnSuccessListener<Void>() {
                                         @Override
                                         public void onSuccess(Void aVoid) {
 
-                                            Toast.makeText(Doctor_profile.this, "Profile updated successfully", Toast.LENGTH_LONG).show();
+                                            Toast.makeText(PatientProfile.this, "Profile updated successfully", Toast.LENGTH_LONG).show();
                                             // Close any dialogs or perform other actions after successful image update
                                             dialog.dismiss();
                                         }
@@ -347,14 +346,14 @@ public class Doctor_profile extends AppCompatActivity {
             }).addOnFailureListener(new OnFailureListener() {
                 @Override
                 public void onFailure(@NonNull Exception e) {
-                    Toast.makeText(Doctor_profile.this, "Image Upload Failed", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(PatientProfile.this, "Image Upload Failed", Toast.LENGTH_SHORT).show();
                     // Handle failure scenarios if needed
                     dialog.dismiss();
                 }
             });
         } else {
             // If no image selected, just display the success message
-            Toast.makeText(Doctor_profile.this, "No image selected", Toast.LENGTH_SHORT).show();
+            Toast.makeText(PatientProfile.this, "No image selected", Toast.LENGTH_SHORT).show();
             dialog.dismiss();
         }
 
